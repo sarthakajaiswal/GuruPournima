@@ -1,0 +1,12 @@
+1) implement curves in alphabet, calculate the normals mathematically 
+
+pallavi tai- water 
+human model - aayush 
+
+human model 
+
+terrain 
+trees 
+water 
+butterfly 
+rabbits -> model 

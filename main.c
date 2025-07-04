@@ -28,6 +28,11 @@ float tx, ty = 0.0f, tz, sx = 1.0f, sy = 1.0f, sz= 1.0f, rx, ry, rz;
 const float translation_step = 0.05f; 
 const float scale_step = 0.05f;  
 
+// lights related variables 
+BOOL bLight = FALSE; 
+
+int gTimer = 0; // global timer 
+
 // entry-point function 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int nShowCmd) 
 {
@@ -211,6 +216,20 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
                     {
                         toggleFullScreen(); 
                         gbFullScreen = FALSE; 
+                    }
+                    break; 
+
+                case 'L': 
+                case 'l': 
+                    if(bLight == FALSE) 
+                    {
+                        bLight = TRUE; 
+                        glEnable(GL_LIGHTING); 
+                    }
+                    else 
+                    {
+                        bLight = FALSE; 
+                        glDisable(GL_LIGHTING); 
                     }
                     break; 
 
@@ -430,10 +449,11 @@ int initialize(void)
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); 
 
     // instruct OpenGL to choose color to clear the screen 
-    glClearColor(0.0f, 0.0f, 1.0f, 1.0f); 
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); 
 
     // initialize scenes 
     initScene1(); 
+    initLights(); 
 
     // warm up resize 
     resize(WIN_WIDTH, WIN_HEIGHT); 
@@ -493,6 +513,8 @@ void update(void)
 {
     // code 
     updateScene1(); 
+
+    gTimer = gTimer + 1; 
 } 
 
 void toggleFullScreen(void) 
