@@ -1,6 +1,6 @@
 #include "scene1.h" 
 
-#define DEPTH_OF_ALPHABETS  1.0f 
+#define DEPTH_OF_ALPHABETS  2.0f 
 // #define WIDTH_OF_ALPHABETS  0.3f 
 
 extern FILE* gpFile; 
@@ -212,7 +212,8 @@ void six(void)
 }
 
 void (*scene1AlphabetFunctionsOfAstromedicomp[13])(void) = {a, s, t, r, o, m, e, d, i, c, o, m, p}; 
-void (*scene1AlphabetFunctionsOfFrustum[17])(void) = {f, r, u, s, t, u, m};
+void (*scene1AlphabetFunctionsOfFrustum[7])(void) = {f, r, u, s, t, u, m};
+void (*scene1AlphabetFunctionsOfPresents[8])(void) = {p, r, e, s, e, n, t, s};
 
 GLUquadric* scene1quadric = NULL; 
 void initScene1(void) 
@@ -264,23 +265,40 @@ void displayScene1(void)
     glPopMatrix(); 
 
     glPushMatrix(); 
-    glTranslatef(translate + 3.5f, -0.8f, 0.0f); 
-    // gluSphere(scene1quadric, 1.0f, 1.0f, 1.0f); 
+    glTranslatef(translate + 4.0f, -0.8f, 0.0f); 
+    gluSphere(scene1quadric, 0.3f, 8, 8); 
     glPopMatrix(); 
 
-    // glPushMatrix(); 
-    // glTranslatef(translate + 5.0f, 0.0f, 0.0f); 
-    // o(); 
-    // glPopMatrix(); 
+    glPushMatrix(); 
+    glTranslatef(translate + 5.5f, 0.0f, 0.0f); 
+    o(); 
+    glPopMatrix(); 
 
+    translate = -16.5f;
+    for(size_t i = 0; 
+        i < sizeof(scene1AlphabetFunctionsOfPresents)/sizeof(scene1AlphabetFunctionsOfPresents[0]); 
+        ++i
+    ) {
+        glPushMatrix(); 
+        glTranslatef(translate, -5.0f, 0.0f); 
+        scene1AlphabetFunctionsOfPresents[i](); 
+        glPopMatrix(); 
+
+        translate += 3.0f; 
+    } 
 } 
 
 void updateScene1(void) 
+{
+    
+} 
+
+void uninitializeScene1(void) 
 {
     if(scene1quadric) 
     {
         gluDeleteQuadric(scene1quadric); 
         scene1quadric = NULL; 
     } 
-} 
+}
 

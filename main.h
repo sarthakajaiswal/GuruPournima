@@ -14,7 +14,7 @@
 #include "Scenes/Scene1/scene1.h" 
 
 // Effects header files 
-#include "Effects/Lights/lights.h" 
+// #include "Effects/Lights/lights.h" 
 
 // OpenGL libraries 
 #pragma comment(lib, "opengl32.lib") 

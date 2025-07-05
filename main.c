@@ -448,12 +448,15 @@ int initialize(void)
     glDepthFunc(GL_LEQUAL); 
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); 
 
+    glEnable(GL_NORMALIZE);  
+
     // instruct OpenGL to choose color to clear the screen 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); 
 
     // initialize scenes 
-    initScene1(); 
-    initLights(); 
+    // initScene1(); 
+    // initLights(); 
+    initScene2(); 
 
     // warm up resize 
     resize(WIN_WIDTH, WIN_HEIGHT); 
@@ -481,7 +484,7 @@ void resize(int width, int height)
         45.0f, 
         (GLfloat)width/(GLfloat)height, 
         0.1f, 
-        100.0f 
+        10000.0f 
     ); 
 }
 
@@ -503,7 +506,8 @@ void display(void)
 		cameraUpX, cameraUpY, cameraUpZ
 	); 
 
-    displayScene1(); 
+    // displayScene1(); 
+    displayScene2(); 
 
     // swap buffers 
     SwapBuffers(ghdc); 

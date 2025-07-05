@@ -1,3 +1,4 @@
 Program started successfully
+Terrain heightmap image loaded successfully
 initialize() completed successfully
 Programme terminated successfully
