@@ -1,12 +1,15 @@
 #ifndef _SCENE_H 
 #define _SCENE_H 
 
+#include <gl/glew.h> 
 #include <Windows.h> 
+#include <stdio.h> 
 #include <gl/GL.h> 
 
-#include "../../Effects/Terrain/terrain.h" 
+#include "../../Common/common.h" 
+#include "../../Effects/Cubemap/cubemap.h" 
 
-void initScene2(void); 
+BOOL initScene2(void); 
 void displayScene2(void); 
 void updateScene2(void); 
 

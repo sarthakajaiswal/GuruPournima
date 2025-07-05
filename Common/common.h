@@ -2,6 +2,7 @@
 #define _COMMON_H 
 
 #include <Windows.h> 
+#include <stdio.h> 
 #include <gl/GL.h> 
 
 struct Color 
@@ -22,5 +23,7 @@ struct Quad
 }; 
 
 void cubeFromQuad(struct Quad* quad, float depth); 
+
+BOOL loadGLPngTexture(GLuint* texture, char* file); 
 
 #endif /* _COMMON_H */

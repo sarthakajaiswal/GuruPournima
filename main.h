@@ -7,6 +7,7 @@
 #include <stdlib.h> 
 
 // OpenGL related header files 
+#include <gl/glew.h> 
 #include <gl/GL.h> 
 #include <gl/GLU.h> 
 
@@ -25,6 +26,10 @@
 #define WIN_HEIGHT  600 
 
 #define MYICON  101 
+
+// for using stb_image functionalities  
+#define STB_IMAGE_IMPLEMENTATION 
+#include "Common/stb_image.h" 
 
 // global function declarations 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam); 

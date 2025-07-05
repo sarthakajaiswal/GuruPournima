@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "windows.h": "c"
+        "windows.h": "c",
+        "scene2.h": "c",
+        "common.h": "c",
+        "cubemap.h": "c"
     }
 }

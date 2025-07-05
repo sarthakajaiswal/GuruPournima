@@ -448,7 +448,11 @@ int initialize(void)
     glDepthFunc(GL_LEQUAL); 
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); 
 
+    // for lighting 
     glEnable(GL_NORMALIZE);  
+
+    // for texturing 
+    glEnable(GL_TEXTURE_2D); 
 
     // instruct OpenGL to choose color to clear the screen 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); 

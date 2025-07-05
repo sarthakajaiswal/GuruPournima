@@ -1,5 +1,9 @@
 #include "common.h" 
 
+#include "stb_image.h" 
+
+extern FILE* gpFile; 
+
 void cubeFromQuad(struct Quad* quad, float depth) 
 {
     // variable declarations 
@@ -75,4 +79,33 @@ void cubeFromQuad(struct Quad* quad, float depth)
     glVertex3f(quad->p4x, quad->p4y, -z);
     
     glEnd(); 
+} 
+
+BOOL loadGLPngTexture(GLuint* texture, char* file) 
+{
+    // variable declarations 
+    int w, h, comp; 
+    unsigned char* image = stbi_load(file, &w, &h, &comp, 4); 
+
+    // code 
+    if(image == NULL) 
+    {
+        fprintf(gpFile, "failed to load image : %s\n", file);
+        return (FALSE); 
+    }
+
+    glGenTextures(1, texture); 
+    glBindTexture(GL_TEXTURE_2D, *texture); 
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 4); 
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); 
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, image); 
+
+    glBindTexture(GL_TEXTURE_2D, 0); 
+    stbi_image_free(image); 
+
+    fprintf(gpFile, "Image loaded succesfully: %s (%dX%d)\n", file, w, h); 
+    return (TRUE); 
 } 
