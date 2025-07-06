@@ -1,5 +1,5 @@
 cl.exe /c /EHsc main.c Common/common.c 
-cl.exe /c /EHsc Common/Audio/audio.c 
+@REM cl.exe /c /EHsc Common/Audio/audio.c 
 cl.exe /c /EHsc Common/Geometry/geometry.c 
 
 @REM scenes 
@@ -18,3 +18,4 @@ rc.exe main.rc
 link.exe /OUT:main.exe *.obj main.res user32.lib gdi32.lib /SUBSYSTEM:WINDOWS 
 
 del *.obj
+ 
