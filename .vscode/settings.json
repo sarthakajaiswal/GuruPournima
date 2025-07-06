@@ -3,6 +3,7 @@
         "windows.h": "c",
         "scene2.h": "c",
         "common.h": "c",
-        "cubemap.h": "c"
+        "cubemap.h": "c",
+        "main.h": "c"
     }
 }

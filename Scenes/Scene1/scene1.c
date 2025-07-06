@@ -4,6 +4,7 @@
 // #define WIDTH_OF_ALPHABETS  0.3f 
 
 extern FILE* gpFile; 
+extern unsigned long long mainTimer; 
 
 float angle=0.0f; 
 

@@ -1,5 +1,11 @@
 #include "main.h" 
 
+// #define LIGHTS 0x0000 
+#define SCENE1 0x0001  
+// #define SCENE2 0x0010   
+// #define SCENE3 0x0011   
+
+
 // global variable declarations 
 HWND ghwnd; 
 HDC ghdc; 
@@ -31,7 +37,7 @@ const float scale_step = 0.05f;
 // lights related variables 
 BOOL bLight = FALSE; 
 
-int gTimer = 0; // global timer 
+unsigned long long mainTimer = 0; 
 
 // entry-point function 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int nShowCmd) 
@@ -458,9 +464,20 @@ int initialize(void)
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); 
 
     // initialize scenes 
-    // initScene1(); 
-    // initLights(); 
-    initScene2(); 
+    #ifdef SCENE1 
+        initScene1(); 
+    #endif 
+
+    #ifdef SCENE2 
+        initScene2(); 
+    #endif 
+
+    #ifdef LIGHTS 
+        initLights(); 
+    #endif 
+
+    initializeAudio(); 
+    playAudio(); 
 
     // warm up resize 
     resize(WIN_WIDTH, WIN_HEIGHT); 
@@ -510,8 +527,13 @@ void display(void)
 		cameraUpX, cameraUpY, cameraUpZ
 	); 
 
-    // displayScene1(); 
-    displayScene2(); 
+    #ifdef SCENE1 
+        displayScene1(); 
+    #endif 
+
+    #ifdef SCENE2 
+        displayScene2(); 
+    #endif 
 
     // swap buffers 
     SwapBuffers(ghdc); 
@@ -520,9 +542,15 @@ void display(void)
 void update(void) 
 {
     // code 
-    // updateScene1(); 
+    #ifdef SCENE1 
+        updateScene1(); 
+    #endif 
 
-    gTimer = gTimer + 1; 
+    #ifdef SCENE2 
+        updateScene2(); 
+    #endif 
+
+    mainTimer = mainTimer + 1; 
 } 
 
 void toggleFullScreen(void) 

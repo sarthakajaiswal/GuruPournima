@@ -5,6 +5,7 @@
 #include <Windows.h> 
 #include <stdio.h> 
 #include <stdlib.h> 
+#include <assert.h> 
 
 // OpenGL related header files 
 #include <gl/glew.h> 
@@ -16,6 +17,9 @@
 
 // Effects header files 
 // #include "Effects/Lights/lights.h" 
+
+// audio 
+#include "Common/Audio/audio.h" 
 
 // OpenGL libraries 
 #pragma comment(lib, "opengl32.lib") 
