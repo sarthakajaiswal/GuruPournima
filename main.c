@@ -458,9 +458,9 @@ int initialize(void)
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); 
 
     // initialize scenes 
-    initScene1(); 
-    initLights(); 
-    // initScene2(); 
+    // initScene1(); 
+    // initLights(); 
+    initScene2(); 
 
     // warm up resize 
     resize(WIN_WIDTH, WIN_HEIGHT); 
@@ -510,8 +510,8 @@ void display(void)
 		cameraUpX, cameraUpY, cameraUpZ
 	); 
 
-    displayScene1(); 
-    // displayScene2(); 
+    // displayScene1(); 
+    displayScene2(); 
 
     // swap buffers 
     SwapBuffers(ghdc); 
@@ -520,7 +520,7 @@ void display(void)
 void update(void) 
 {
     // code 
-    updateScene1(); 
+    // updateScene1(); 
 
     gTimer = gTimer + 1; 
 } 

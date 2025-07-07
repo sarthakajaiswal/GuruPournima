@@ -1,0 +1,158 @@
+#include "geometry.h" 
+
+#include <gl/GL.h> 
+
+void drawTexturedCube(
+        float x, float y, float z, 
+        float sx, float sy, float sz, 
+        float r, float g, float b, 
+        FaceType faces_to_be_textured, 
+        GLuint texture_front, 
+        GLuint texture_right, 
+        GLuint texture_back, 
+        GLuint texture_left, 
+        GLuint texture_top, 
+        GLuint texture_bottom
+    ) 
+{
+    // code 
+    glPushMatrix(); 
+    {
+        glTranslatef(x, y, z);  
+        glScalef(sx, sy, sz); 
+        glColor3f(r, g, b); 
+
+        // front face  
+        glNormal3f(0.0f, 0.0f, 1.0f); 
+        glBindTexture(GL_TEXTURE_2D, texture_front); 
+        glBegin(GL_QUADS); 
+        if(faces_to_be_textured & FACE_FRONT)
+            glTexCoord2f(1.0f, 1.0f); 
+        glVertex3f(1.0f, 1.0f, 1.0f); 
+
+        if(faces_to_be_textured & FACE_FRONT) 
+            glTexCoord2f(0.0f, 1.0f); 
+        glVertex3f(-1.0f, 1.0f, 1.0f);	 
+        
+        if(faces_to_be_textured & FACE_FRONT)
+            glTexCoord2f(0.0f, 0.0f); 
+        glVertex3f(-1.0f, -1.0f, 1.0f);  
+        
+        if(faces_to_be_textured & FACE_FRONT)
+            glTexCoord2f(1.0f, 0.0f); 
+        glVertex3f(1.0f, -1.0f, 1.0f); 
+        glEnd(); 
+        glBindTexture(GL_TEXTURE_2D, 0); 
+        
+        // right face 
+        glNormal3f(1.0f, 0.0f, 0.0f); 
+        glBindTexture(GL_TEXTURE_2D, texture_right); 
+        glBegin(GL_QUADS); 
+        if(faces_to_be_textured & FACE_RIGHT) 
+            glTexCoord2f(1.0f, 1.0f); 
+        glVertex3f(1.0f, 1.0f, -1.0f); 	// right top 
+
+        if(faces_to_be_textured & FACE_RIGHT)
+            glTexCoord2f(0.0f, 1.0f); 
+        glVertex3f(1.0f, 1.0f, 1.0f);	// left top 
+
+        if(faces_to_be_textured & FACE_RIGHT)
+            glTexCoord2f(0.0f, 0.0f); 
+        glVertex3f(1.0f, -1.0f, 1.0f);	// left bottom 
+
+        if(faces_to_be_textured & FACE_RIGHT)
+            glTexCoord2f(1.0f, 0.0f); 
+        glVertex3f(1.0f, -1.0f, -1.0f); // right bottom  
+        glEnd(); 
+        glBindTexture(GL_TEXTURE_2D, 0); 
+        
+        // back face 
+        glNormal3f(0.0f, 0.0f, -1.0f);
+        glBindTexture(GL_TEXTURE_2D, texture_back); 
+        glBegin(GL_QUADS); 
+        if(faces_to_be_textured & FACE_BACK)
+            glTexCoord2f(1.0f, 1.0f); 
+        glVertex3f(-1.0f, 1.0f, -1.0f);	 // right top 
+
+        if(faces_to_be_textured & FACE_BACK)
+            glTexCoord2f(0.0f, 1.0f); 
+        glVertex3f(1.0f, 1.0f, -1.0f);	 // left top 
+
+        if(faces_to_be_textured & FACE_BACK)
+            glTexCoord2f(0.0f, 0.0f); 
+        glVertex3f(1.0, -1.0, -1.0f); 	 // left bottom 
+
+        if(faces_to_be_textured & FACE_BACK)
+            glTexCoord2f(1.0f, 0.0f); 
+        glVertex3f(-1.0f, -1.0f, -1.0f); // right bottom  
+        glEnd(); 
+        glBindTexture(GL_TEXTURE_2D, 0); 
+        
+        // left face 
+        glNormal3f(-1.0f, 0.0f, 0.0f);
+        glBindTexture(GL_TEXTURE_2D, texture_left); 
+        glBegin(GL_QUADS); 
+        if(faces_to_be_textured & FACE_LEFT)
+            glTexCoord2f(1.0f, 1.0f); 
+        glVertex3f(-1.0f, 1.0f, 1.0f);	// right top 
+
+        if(faces_to_be_textured & FACE_LEFT)
+            glTexCoord2f(0.0f, 1.0f); 
+        glVertex3f(-1.0f, 1.0f, -1.0f);// left top 
+
+        if(faces_to_be_textured & FACE_LEFT)
+            glTexCoord2f(0.0f, 0.0f); 
+        glVertex3f(-1.0f, -1.0f, -1.0f); // left bottom 
+
+        if(faces_to_be_textured & FACE_LEFT)
+            glTexCoord2f(1.0f, 0.0f); 
+        glVertex3f(-1.0f, -1.0f, 1.0f); // right bottom 
+        glEnd(); 
+        glBindTexture(GL_TEXTURE_2D, 0); 
+
+        // top face 
+        glNormal3f(0.0f, 1.0f, 0.0f); 
+        glBindTexture(GL_TEXTURE_2D, texture_top); 
+        glBegin(GL_QUADS); 
+        if(faces_to_be_textured & FACE_TOP)
+            glTexCoord2f(1.0f, 1.0f); 
+        glVertex3f(1.0f, 1.0f, -1.0f); 	// right top 
+
+        if(faces_to_be_textured & FACE_TOP)
+            glTexCoord2f(0.0f, 1.0f); 
+        glVertex3f(-1.0f, 1.0f, -1.0f);	// left top 
+
+        if(faces_to_be_textured & FACE_TOP)
+            glTexCoord2f(0.0f, 0.0f); 
+        glVertex3f(-1.0f, 1.0f, 1.0f);	// left bottom 
+
+        if(faces_to_be_textured & FACE_TOP)
+            glTexCoord2f(1.0f, 0.0f); 
+        glVertex3f(1.0f, 1.0f, 1.0f);   // right bottom 
+        glEnd(); 
+        glBindTexture(GL_TEXTURE_2D, 0); 
+        
+        // bottom face 
+        glNormal3f(0.0f, -1.0f, 0.0f);
+        glBindTexture(GL_TEXTURE_2D, texture_bottom); 
+        glBegin(GL_QUADS); 
+        if(faces_to_be_textured & FACE_BOTTOM)
+            glTexCoord2f(1.0f, 1.0f); 
+        glVertex3f(1.0f, -1.0f, 1.0f);	// right top 
+
+        if(faces_to_be_textured & FACE_BOTTOM)
+            glTexCoord2f(0.0f, 1.0f); 
+        glVertex3f(-1.0f, -1.0f, 1.0f); // left top 
+
+        if(faces_to_be_textured & FACE_BOTTOM)
+            glTexCoord2f(0.0f, 0.0f); 
+        glVertex3f(-1.0f, -1.0f, -1.0f);	// left bottom 
+
+        if(faces_to_be_textured & FACE_BOTTOM)
+            glTexCoord2f(1.0f, 0.0f); 
+        glVertex3f(1.0f, -1.0f, -1.0f); 	// right bottom 
+        glEnd(); 
+        glBindTexture(GL_TEXTURE_2D, 0); 
+    } 
+    glPopMatrix(); 
+}

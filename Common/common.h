@@ -4,6 +4,7 @@
 #include <Windows.h> 
 #include <stdio.h> 
 #include <gl/GL.h> 
+#include <gl/GLU.h>
 
 struct Color 
 {

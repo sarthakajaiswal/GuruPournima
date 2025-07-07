@@ -1,3 +1,12 @@
 Program started successfully
+Image loaded succesfully: Resources/dried_leaves.png (666X442)
+loaded - Resources/Cubemap/Day/right.png
+loaded - Resources/Cubemap/Day/left.png
+loaded - Resources/Cubemap/Day/top.png
+loaded - Resources/Cubemap/Day/bottom.png
+loaded - Resources/Cubemap/Day/front.png
+loaded - Resources/Cubemap/Day/back.png
 initialize() completed successfully
-Programme terminated successfully
+
+0.00, 0.00, 0.00, 1.00, 1.00, 1.00
+-10.50 0.00 0.00

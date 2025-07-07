@@ -8,6 +8,7 @@
 
 #include "../../Common/common.h" 
 #include "../../Effects/Cubemap/cubemap.h" 
+#include "../../Objects/Boy/boy.h" 
 
 BOOL initScene2(void); 
 void displayScene2(void); 
