@@ -156,3 +156,58 @@ void drawTexturedCube(
     } 
     glPopMatrix(); 
 }
+
+void drawPyramid(
+    float x, float y, float z, 
+    float sx, float sy, float sz, 
+    float r, float g, float b, float a, 
+    GLuint texture 
+)
+{
+    glPushMatrix(); 
+        glTranslatef(x, y, z);  
+        glScalef(sx, sy, sz); 
+        glColor4f(r, g, b, a); 
+
+        glBindTexture(GL_TEXTURE_2D, texture); 
+        glBegin(GL_TRIANGLES);
+        // front face 
+        glNormal3f(0.0f, 0.447214f, 0.894428f); 
+        glTexCoord2f(0.5f, 1.0f); 
+        glVertex3f(0.0f, 1.0f, 0.0f);
+        glTexCoord2f(0.0f, 0.0f); 
+        glVertex3f(-1.0f, -1.0f, 1.0f);	
+        glTexCoord2f(1.0f, 0.0f); 
+        glVertex3f(1.0f, -1.0f, 1.0f); 
+        
+        // right face 
+        glNormal3f(0.894428f, 0.447214f, 0.0f); 
+        glTexCoord2f(0.5f, 1.0f); 
+        glVertex3f(0.0f, 1.0f, 0.0f); 
+        glTexCoord2f(0.0f, 0.0f); 
+        glVertex3f(1.0f, -1.0f, 1.0f); 
+        glTexCoord2f(1.0f, 0.0f); 
+        glVertex3f(1.0f, -1.0f, -1.0f); 
+        
+        // back face 
+        glNormal3f(0.0f, 0.447214f, -0.894428f); 
+        glTexCoord2f(0.5f, 1.0f); 
+        glVertex3f(0.0f, 1.0f, 0.0f); 
+        glTexCoord2f(1.0f, 0.0f); 
+        glVertex3f(1.0f, -1.0f, -1.0f); 
+        glTexCoord2f(0.0f, 0.0f); 
+        glVertex3f(-1.0f, -1.0f, -1.0f); 
+        
+        // left face 
+        glNormal3f(-0.894428, 0.447214f, 0.0f);
+        glTexCoord2f(0.5f, 1.0f); 
+        glVertex3f(0.0f, 1.0f, 0.0f); 
+        glTexCoord2f(0.0f, 0.0f); 
+        glVertex3f(-1.0f, -1.0f, -1.0f);  
+        glTexCoord2f(1.0f, 0.0f); 
+        glVertex3f(-1.0f, -1.0f, 1.0f); 
+        glEnd();
+
+        glBindTexture(GL_TEXTURE_2D, 0); 
+    glPopMatrix(); 
+}

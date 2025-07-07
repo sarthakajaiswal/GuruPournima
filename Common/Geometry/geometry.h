@@ -23,5 +23,11 @@ void drawTexturedCube(
         GLuint texture_front, GLuint texture_right, GLuint texture_back, 
         GLuint texture_left, GLuint texture_top, GLuint texture_bottom 
 ); 
+void drawPyramid(
+    float x, float y, float z, 
+    float sx, float sy, float sz, 
+    float r, float g, float b, float a, 
+    GLuint texture 
+); 
 
 #endif /* _GEOMETRY_H */

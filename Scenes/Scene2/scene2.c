@@ -57,7 +57,7 @@ void displayScene2(void)
 
 void updateScene2(void) 
 {
-
+    updateBoy(); 
 } 
 
 void uninitializeScene2(void) 

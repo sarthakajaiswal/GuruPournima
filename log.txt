@@ -1,6 +1,0 @@
-Program started successfully
-initializeAudio(): FindResource() failed
-initialize() completed successfully
-
-0.00, 0.00, 0.00, 1.00, 1.00, 1.00
--10.50 0.00 0.00

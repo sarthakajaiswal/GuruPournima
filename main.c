@@ -1,8 +1,8 @@
 #include "main.h" 
 
 // #define LIGHTS 0x0000 
-#define SCENE1 0x0001  
-// #define SCENE2 0x0010   
+// #define SCENE1 0x0001  
+#define SCENE2 0x0010   
 // #define SCENE3 0x0011   
 
 
@@ -476,8 +476,8 @@ int initialize(void)
         initLights(); 
     #endif 
 
-    initializeAudio(); 
-    playAudio(); 
+    // initializeAudio(); 
+    // playAudio(); 
 
     // warm up resize 
     resize(WIN_WIDTH, WIN_HEIGHT); 
