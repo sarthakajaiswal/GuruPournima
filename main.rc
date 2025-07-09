@@ -1,3 +1,6 @@
+#include <Windows.h> 
+#include "main.h" 
+#include "Common/Audio/audio.h" 
 
-MYICON ICON icon.ico
-ID_MUSIC WAVE "Resources/audio.wav" 
+MYICON icon icon.ico
+ID_MUSIC wave Resources/audio.wav 

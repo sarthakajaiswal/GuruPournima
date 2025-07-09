@@ -5,6 +5,12 @@
         "common.h": "c",
         "cubemap.h": "c",
         "main.h": "c",
-        "geometry.h": "c"
+        "geometry.h": "c",
+        "cstdlib": "c",
+        "audio.h": "c",
+        "scene3.h": "c",
+        "assert.h": "c",
+        "grass.h": "c",
+        "cmath": "c"
     }
 }

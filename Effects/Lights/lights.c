@@ -16,6 +16,11 @@ GLfloat lightDiffuse2[] = {72.0/255.0, 157.0/255.0, 158.0/255.0, 1.0f};
 GLfloat lightSpecular2[] = {72.0/255.0, 157.0/255.0, 158.0/255.0};  
 GLfloat lightPosition2[] = {0.0f, 0.0f, 20.0f, 1.0f}; 
 
+GLfloat lightAmbient3[] = {0.0f, 0.0f, 0.0f, 1.0f}; 
+GLfloat lightDiffuse3[] = {0.0f, 0.0f, 0.0f, 0.5f}; 
+GLfloat lightSpecular3[] = {0.1f, 0.1f, 0.1f};  
+GLfloat lightPosition3[] = {0.0f, 10.0f, 30.0f, 1.0f}; 
+
 GLfloat materialAmbient[] = {0.0f, 0.0f, 0.0f, 1.0f}; 
 GLfloat materialDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
 GLfloat materialSpecular[] = {0.7f, 0.7f, 0.7f, 1.0f}; 
@@ -44,6 +49,12 @@ void initLights(void)
     glLightfv(GL_LIGHT2, GL_SPECULAR, lightSpecular2); 
     glLightfv(GL_LIGHT2, GL_POSITION, lightPosition2); 
     glEnable(GL_LIGHT2);
+
+    glLightfv(GL_LIGHT3, GL_AMBIENT, lightAmbient3); 
+    glLightfv(GL_LIGHT3, GL_DIFFUSE, lightDiffuse3); 
+    glLightfv(GL_LIGHT3, GL_SPECULAR, lightSpecular3); 
+    glLightfv(GL_LIGHT3, GL_POSITION, lightPosition3); 
+    // glEnable(GL_LIGHT3);
 
     glMaterialfv(GL_FRONT, GL_AMBIENT, materialAmbient); 
     glMaterialfv(GL_FRONT, GL_DIFFUSE, materialDiffuse); 

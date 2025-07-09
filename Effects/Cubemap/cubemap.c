@@ -2,7 +2,7 @@
 
 extern FILE* gpFile; 
 
-unsigned int loadCubeMap(const char* faces[]) 
+unsigned int loadCubeMap(const char* faces[], int desiredChannels) 
 {
     // variable declarations 
     unsigned int textureID; 
@@ -14,7 +14,7 @@ unsigned int loadCubeMap(const char* faces[])
 
     for(int i = 0; i < 6; ++i) 
     {
-        unsigned char* data = stbi_load(faces[i], &width, &height, &nr_channels, STBI_rgb_alpha); 
+        unsigned char* data = stbi_load(faces[i], &width, &height, &nr_channels, desiredChannels); 
         if(data) 
         {
             if(nr_channels == 3) 

@@ -17,6 +17,7 @@
 
 // Effects header files 
 // #include "Effects/Lights/lights.h" 
+#include "Effects/Fog/fog.h" 
 
 // audio 
 #include "Common/Audio/audio.h" 

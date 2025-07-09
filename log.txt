@@ -1,0 +1,29 @@
+Program started successfully
+Image loaded succesfully: Resources/bark1.png (1024X1024)
+Image loaded succesfully: Resources/bark2.png (1024X1024)
+Image loaded succesfully: Resources/bark3.png (667X1000)
+Image loaded succesfully: Resources/bark4.png (414X358)
+Image loaded succesfully: Resources/bark5.png (1615X1439)
+Image loaded succesfully: Resources/tree1.png (512X328)
+Image loaded succesfully: Resources/tree2.png (3072X2487)
+Image loaded succesfully: Resources/grass1.png (6000X4004)
+Image loaded succesfully: Resources/water.png (1280X853)
+Image loaded succesfully: Resources/wing_left.png (261X339)
+Image loaded succesfully: Resources/wing_right.png (260X335)
+Image loaded succesfully: Resources/shore.png (1024X1024)
+Image loaded succesfully: Resources/bush1.png (608X410)
+Image loaded succesfully: Resources/bush2.png (515X361)
+Image loaded succesfully: Resources/bush3.png (451X570)
+Image loaded succesfully: Resources/bush4.png (448X529)
+Image loaded succesfully: Resources/bamboo_bark.png (1660X1423)
+Image loaded succesfully: Resources/deers.png (342X274)
+loaded - Resources/Cubemap/Day/right.png
+loaded - Resources/Cubemap/Day/left.png
+loaded - Resources/Cubemap/Day/top.png
+loaded - Resources/Cubemap/Day/bottom.png
+loaded - Resources/Cubemap/Day/front.png
+loaded - Resources/Cubemap/Day/back.png
+Image loaded succesfully: Resources/peackock_feathers3.png (1080X1080)
+Image loaded succesfully: Resources/peackock_feathers3.png (1080X1080)
+initialize() completed successfully
+Programme terminated successfully

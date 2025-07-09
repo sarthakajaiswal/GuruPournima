@@ -5,13 +5,13 @@ GLUquadric* boyQuadric;
 extern FILE* gpFile; 
 extern float tx, ty, tz, sx, sy, sz, rx, ry, rz; 
 
-GLfloat legAngle; 
-GLfloat flameHeightForAnimation; 
+static GLfloat legAngle; 
+static GLfloat flameHeightForAnimation; 
 
-GLuint texture_face; 
-GLuint texture_jeans; 
-GLuint texture_tshirt; 
-GLuint texture_wood; 
+static GLuint texture_face; 
+static GLuint texture_jeans; 
+static GLuint texture_tshirt; 
+static GLuint texture_wood; 
 
 int initializeBoy(void) 
 {
@@ -146,7 +146,7 @@ void updateBoy(void)
 {
     // code 
     static BOOL legAngleFlag = TRUE;  
-    float legAngleStep = 0.04f; 
+    float legAngleStep = 0.06f; 
 
     static BOOL flameHeightFlag = TRUE; 
     float flameHeightStep = 0.0005f; 

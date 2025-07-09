@@ -230,68 +230,164 @@ void initScene1(void)
 }
 
 float translate; 
+size_t current_index = 0; 
 void displayScene1(void) 
 {
     // function declarations 
-    // code 
+    float translate = -19.5f; 
 
+    // code 
     // draw atromedicomp 
-    translate = -19.5f; 
-    for(size_t i = 0; i < 13; ++i) 
+    if(mainTimer > 5000)
     {
         glPushMatrix(); 
-        glTranslatef(translate, 4.0f, 0.0f); 
-        scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        glTranslatef(-19.5f, 4.0f, 0.0f); 
+        // scene1AlphabetFunctionsOfAstromedicomp[0](); 
+        a(); 
         glPopMatrix(); 
-
-        translate += 3.0f; 
     } 
+    if(mainTimer > 20000)
+    {
+        glPushMatrix(); 
+        glTranslatef(-16.5f, 4.0f, 0.0f); 
+        // scene1AlphabetFunctionsOfAstromedicomp[1](); 
+        s(); 
+        glPopMatrix(); 
+    } 
+    if(mainTimer > 25000)
+    {
+        glPushMatrix(); 
+        glTranslatef(-13.5f, 4.0f, 0.0f); 
+        // scene1AlphabetFunctionsOfAstromedicomp[2](); 
+        t(); 
+        glPopMatrix(); 
+    } 
+    if(mainTimer > 25000)
+    {
+        glPushMatrix(); 
+        glTranslatef(-10.5f, 4.0f, 0.0f); 
+        // scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        r(); 
+        glPopMatrix(); 
+    } 
+    if(mainTimer > 25000)
+    {
+        glPushMatrix(); 
+        glTranslatef(-7.5f, 4.0f, 0.0f); 
+        // scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        o(); 
+        glPopMatrix(); 
+    } 
+    if(mainTimer > 25000)
+    {
+        glPushMatrix(); 
+        glTranslatef(-4.5f, 4.0f, 0.0f); 
+        // scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        m(); 
+        glPopMatrix(); 
+    } 
+    if(mainTimer > 25000)
+    {
+        glPushMatrix(); 
+        glTranslatef(-1.5f, 4.0f, 0.0f); 
+        // scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        e(); 
+        glPopMatrix(); 
+    } 
+    if(mainTimer > 25000)
+    {
+        glPushMatrix(); 
+        glTranslatef(1.5f, 4.0f, 0.0f); 
+        // scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        d(); 
+        glPopMatrix(); 
+    } 
+    if(mainTimer > 25000)
+    {
+        glPushMatrix(); 
+        glTranslatef(4.5f, 4.0f, 0.0f); 
+        // scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        i(); 
+        glPopMatrix(); 
+    } 
+    if(mainTimer > 25000)
+    {
+        glPushMatrix(); 
+        glTranslatef(7.5f, 4.0f, 0.0f); 
+        // scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        c(); 
+        glPopMatrix(); 
+    } 
+    if(mainTimer > 25000)
+    {
+        glPushMatrix(); 
+        glTranslatef(11.5f, 4.0f, 0.0f); 
+        // scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        o(); 
+        glPopMatrix(); 
+    } 
+    if(mainTimer > 25000)
+    {
+        glPushMatrix(); 
+        glTranslatef(14.5f, 4.0f, 0.0f); 
+        // scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        m(); 
+        glPopMatrix(); 
+    } 
+    if(mainTimer > 25000)
+    {
+        glPushMatrix(); 
+        glTranslatef(17.5f, 4.0f, 0.0f); 
+        // scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        p(); 
+        glPopMatrix(); 
+    } 
+
 
     // draw frustum  
-    translate = -13.5f; 
-    for(size_t i = 0; i < 7; ++i) 
-    {
-        glPushMatrix(); 
-        glTranslatef(translate, 0.0f, 0.0f); 
-        scene1AlphabetFunctionsOfFrustum[i](); 
-        glPopMatrix(); 
+    // translate = -13.5f; 
+    // for(size_t i = 0; i < 7; ++i) 
+    // {
+    //     glPushMatrix(); 
+    //     glTranslatef(translate, 0.0f, 0.0f); 
+    //     scene1AlphabetFunctionsOfFrustum[i](); 
+    //     glPopMatrix(); 
 
-        translate += 3.0f; 
-    } 
+    //     translate += 3.0f; 
+    // } 
 
-    // draw 6.0 
-    glPushMatrix(); 
-    glTranslatef(translate + 2.0f, 0.0f, 0.0f); 
-    six(); 
-    glPopMatrix(); 
+    // // draw 6.0 
+    // glPushMatrix(); 
+    // glTranslatef(translate + 2.0f, 0.0f, 0.0f); 
+    // six(); 
+    // glPopMatrix(); 
 
-    glPushMatrix(); 
-    glTranslatef(translate + 4.0f, -0.8f, 0.0f); 
-    gluSphere(scene1quadric, 0.3f, 8, 8); 
-    glPopMatrix(); 
+    // glPushMatrix(); 
+    // glTranslatef(translate + 4.0f, -0.8f, 0.0f); 
+    // gluSphere(scene1quadric, 0.3f, 8, 8); 
+    // glPopMatrix(); 
 
-    glPushMatrix(); 
-    glTranslatef(translate + 5.5f, 0.0f, 0.0f); 
-    o(); 
-    glPopMatrix(); 
+    // glPushMatrix(); 
+    // glTranslatef(translate + 5.5f, 0.0f, 0.0f); 
+    // o(); 
+    // glPopMatrix(); 
 
-    translate = -16.5f;
-    for(size_t i = 0; 
-        i < sizeof(scene1AlphabetFunctionsOfPresents)/sizeof(scene1AlphabetFunctionsOfPresents[0]); 
-        ++i
-    ) {
-        glPushMatrix(); 
-        glTranslatef(translate, -5.0f, 0.0f); 
-        scene1AlphabetFunctionsOfPresents[i](); 
-        glPopMatrix(); 
+    // translate = -16.5f;
+    // for(size_t i = 0; 
+    //     i < sizeof(scene1AlphabetFunctionsOfPresents)/sizeof(scene1AlphabetFunctionsOfPresents[0]); 
+    //     ++i
+    // ) {
+    //     glPushMatrix(); 
+    //     glTranslatef(translate, -5.0f, 0.0f); 
+    //     scene1AlphabetFunctionsOfPresents[i](); 
+    //     glPopMatrix(); 
 
-        translate += 3.0f; 
-    } 
+    //     translate += 3.0f; 
+    // } 
 } 
 
 void updateScene1(void) 
 {
-    
 } 
 
 void uninitializeScene1(void) 

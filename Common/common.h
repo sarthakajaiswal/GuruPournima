@@ -24,7 +24,7 @@ struct Quad
 }; 
 
 void cubeFromQuad(struct Quad* quad, float depth); 
-
 BOOL loadGLPngTexture(GLuint* texture, char* file); 
+void billboard(float x, float y, float z, float width, float height, float depth, GLuint texture); 
 
 #endif /* _COMMON_H */

@@ -109,3 +109,47 @@ BOOL loadGLPngTexture(GLuint* texture, char* file)
     fprintf(gpFile, "Image loaded succesfully: %s (%dX%d)\n", file, w, h); 
     return (TRUE); 
 } 
+
+void billboard(float x, float y, float z, float width, float height, float depth, GLuint texture) 
+{
+    // code 
+    glPushMatrix(); 
+		glBindTexture(GL_TEXTURE_2D, texture); 
+		glTranslatef(x, y, z); 
+		glScalef(width, height, depth);  
+		
+		glColor3f(1.0f, 1.0f, 1.0f); 
+		glBegin(GL_QUADS);
+		glTexCoord2f(1.0f, 1.0f); 
+		glVertex3f(1.0f, 1.0f, 0.0f);  // right-top 
+		glTexCoord2f(0.0f, 1.0f); 
+		glVertex3f(-1.0f, 1.0f, 0.0f); // left-top 
+		glTexCoord2f(0.0f, 0.0f); 
+		glVertex3f(-1.0f, -1.0f, 0.0f);	// left-bottom 
+		glTexCoord2f(1.0f, 0.0f); 
+		glVertex3f(1.0f, -1.0f, 0.0f);	// right-bottom 
+		glEnd(); 
+		glBindTexture(GL_TEXTURE_2D, 0); 
+	glPopMatrix(); 
+	
+	glPushMatrix(); 
+		glBindTexture(GL_TEXTURE_2D, texture); 
+		glTranslatef(x, y, z); 
+		glScalef(width, height, depth);  
+		glRotatef(90.0f, 0.0f, 1.0f, 0.0f); 
+		glColor3f(1.0f, 1.0f, 1.0f); 
+		
+		glBegin(GL_QUADS);
+		glTexCoord2f(1.0f, 1.0f); 
+		glVertex3f(1.0f, 1.0f, 0.0f);  // right-top 
+		glTexCoord2f(0.0f, 1.0f); 
+		glVertex3f(-1.0f, 1.0f, 0.0f); // left-top 
+		glTexCoord2f(0.0f, 0.0f); 
+		glVertex3f(-1.0f, -1.0f, 0.0f);	// left-bottom 
+		glTexCoord2f(1.0f, 0.0f); 
+		glVertex3f(1.0f, -1.0f, 0.0f);	// right-bottom 
+		glEnd(); 
+		glBindTexture(GL_TEXTURE_2D, 0); 
+	glPopMatrix(); 
+}
+

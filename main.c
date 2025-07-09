@@ -2,8 +2,8 @@
 
 // #define LIGHTS 0x0000 
 // #define SCENE1 0x0001  
-#define SCENE2 0x0010   
-// #define SCENE3 0x0011   
+// #define SCENE2 0x0010   
+#define SCENE3 0x0011   
 
 
 // global variable declarations 
@@ -25,7 +25,7 @@ FILE* gpFile = NULL;
 TCHAR gszgpFileName[] = TEXT("log.txt"); 
 
 // camera related variables 
-float cameraX = 0.0, cameraY, cameraZ = 15.0; 
+float cameraX = 0.0, cameraY, cameraZ = 32.0; 
 float cameraUpX = 0.0f, cameraUpY = 1.0f, cameraUpZ = 0.0f; 
 float cameraCenterX = 0.0f, cameraCenterY = 0.0f, cameraCenterZ = -10.0f; 
 
@@ -35,7 +35,10 @@ const float translation_step = 0.05f;
 const float scale_step = 0.05f;  
 
 // lights related variables 
-BOOL bLight = FALSE; 
+BOOL bLight = TRUE; 
+
+// fog related variables 
+BOOL gbFogEnabled = TRUE; 
 
 unsigned long long mainTimer = 0; 
 
@@ -48,6 +51,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
     void display(void); 
     void update(void); 
     void uninitialize(void); 
+    void toggleFullScreen(void); 
 
     // variable declarations 
     WNDCLASSEX wndClass; 
@@ -128,6 +132,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
     // set this window as foreground and active window 
     SetForegroundWindow(hwnd); 
     SetFocus(hwnd); 
+    toggleFullScreen(); 
 
     // GameLoop 
     while(bDone == FALSE) 
@@ -390,6 +395,7 @@ int initialize(void)
 {
     // function declarations 
     void resize(int, int); 
+    void PlayBackgroundMusic(); 
 
     // variable declarations 
     PIXELFORMATDESCRIPTOR pfd; 
@@ -466,18 +472,29 @@ int initialize(void)
     // initialize scenes 
     #ifdef SCENE1 
         initScene1(); 
+        // gbFogEnabled = TRUE; 
     #endif 
 
     #ifdef SCENE2 
+        gbFogEnabled = TRUE; 
         initScene2(); 
+    #endif 
+
+    #ifdef SCENE3
+        initScene3(); 
     #endif 
 
     #ifdef LIGHTS 
         initLights(); 
     #endif 
 
+    
+    // glEnable(GL_LIGHTING); 
+    // glEnable(GL_LIGHT3); 
     // initializeAudio(); 
     // playAudio(); 
+
+    PlayBackgroundMusic(); 
 
     // warm up resize 
     resize(WIN_WIDTH, WIN_HEIGHT); 
@@ -535,6 +552,10 @@ void display(void)
         displayScene2(); 
     #endif 
 
+    #ifdef SCENE3 
+        displayScene3(); 
+    #endif 
+
     // swap buffers 
     SwapBuffers(ghdc); 
 }
@@ -548,6 +569,10 @@ void update(void)
 
     #ifdef SCENE2 
         updateScene2(); 
+    #endif 
+
+    #ifdef SCENE3
+        updateScene3(); 
     #endif 
 
     mainTimer = mainTimer + 1; 
@@ -585,6 +610,18 @@ void toggleFullScreen(void)
         ShowCursor(TRUE); 
     }
 } 
+
+void PlayBackgroundMusic()
+{
+    char buffer[MAX_PATH] = {0};
+    GetModuleFileName(NULL, buffer, MAX_PATH);
+    char *LastSlash = strrchr(buffer, '\\');
+    if (LastSlash == NULL)
+        LastSlash = strrchr(buffer, '/');
+    buffer[LastSlash - buffer] = 0;
+    strcat(buffer, "\\Resources/audio.wav");
+    PlaySound(buffer, NULL, SND_ASYNC | SND_LOOP);
+}
 
 void uninitialize(void) 
 {

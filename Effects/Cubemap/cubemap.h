@@ -8,7 +8,7 @@
 
 #include "../../Common/stb_image.h" 
 
-unsigned int loadCubeMap(const char* faces[]); 
+unsigned int loadCubeMap(const char* faces[], int desiredChannels); 
 void displayCubemap(GLuint texture, float cubeScaleX, float cubeScaleY, float cubeScaleZ);  
 
 #endif /* _CUBEMAP_H */
