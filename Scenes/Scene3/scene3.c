@@ -30,6 +30,15 @@ static const char* cubemapImages[6] = {
 }; 
 static GLuint texture_cubemap; 
 
+double butterflyCurveT = 0.0f; 
+
+
+
+GLuint texture_hut_base; 
+GLuint texture_hut_top; 
+
+
+
 int initScene3(void) 
 {
     assert(loadGLPngTexture(&textures_tree_bark[0], "Resources/bark1.png")); 
@@ -53,6 +62,8 @@ int initScene3(void)
     assert(loadGLPngTexture(&texture_bush4, "Resources/bush4.png")); 
     assert(loadGLPngTexture(&texture_bamboo_tree, "Resources/bamboo_bark.png")); 
     assert(loadGLPngTexture(&texture_deer, "Resources/deers.png")); 
+    assert(loadGLPngTexture(&texture_hut_base, "Resources/hut_base.png")); 
+    assert(loadGLPngTexture(&texture_hut_top, "Resources/hut_top.png")); 
 
 
     texture_cubemap = loadCubeMap(cubemapImages, STBI_rgb_alpha); 
@@ -167,6 +178,47 @@ void drawButterfly(GLuint texture_lwing, GLuint texture_rwing, float x, float y,
 extern float tx, ty, tz, sx, sy, sz, rx, ry, rz; 
 
 
+void drawCylinder(float base, float top, float height, float tx, float ty, float tz,float sx, float sy, float sz,float rox, float roy, float roz, GLuint textureID)
+{
+	glEnable(GL_TEXTURE_2D);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);  // Use texture color directly
+	glEnable(GL_BLEND);
+	GLUquadric* quad = gluNewQuadric();
+	gluQuadricTexture(quad, GL_TRUE);
+	glPushMatrix();
+	{
+		glTranslatef(tx, ty, tz);
+		glScalef(sx, sy, sz);
+		glRotatef(rox, 1.0f, 0.0f, 0.0f);
+		glRotatef(roy, 0.0f, 1.0f, 0.0f);
+		glRotatef(roz, 0.0f, 0.0f, 1.0f);
+		glBindTexture(GL_TEXTURE_2D, textureID);
+		gluCylinder(quad, base, top, height, 30, 30);
+	}
+	glPopMatrix();
+	glDisable(GL_BLEND);
+}
+void drawCone(float base, float height, float tx, float ty, float tz, float sx, float sy, float sz, float rox, float roy, float roz, GLuint textureID)
+{
+	glEnable(GL_TEXTURE_2D);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);  // Use texture color directly
+	glEnable(GL_BLEND);
+	GLUquadric* quad = gluNewQuadric();
+	gluQuadricTexture(quad, GL_TRUE);
+	glPushMatrix();
+	{
+		glTranslatef(tx, ty, tz);
+		glScalef(sx, sy, sz);
+		glRotatef(rox, 1.0f, 0.0f, 0.0f);
+		glRotatef(roy, 0.0f, 1.0f, 0.0f);
+		glRotatef(roz, 0.0f, 0.0f, 1.0f);
+		
+		glBindTexture(GL_TEXTURE_2D,textureID);
+		gluCylinder(quad, base, 0.0, height, 30, 30);  //base,top,height,slices,stacks
+	}
+	glPopMatrix();
+	glDisable(GL_BLEND);
+}
 
 
 void displayScene3(void) 
@@ -174,7 +226,7 @@ void displayScene3(void)
     // variable declarations 
     static float isThisFirstCall = TRUE; 
 
-    Point verticesForBazierCurve[] = {{-3.65, 2.15, 17.05}, {-7.65, 10.25, -4.80}, {1.00, 5.55, 9.80}, {-3.95, 3.50, -1.20}, {1.30, 3.25, 20.20}}; 
+    Point verticesForBazierCurve[] = {{-3.65, 2.15, 17.05}, {-3.65, 4.25, 14.80}, {1.00, 5.55, 9.80}, {-3.95, 3.50, 11.20}, {1.30, 3.25, 20.20}}; 
     size_t size = 5; 
 
     // code 
@@ -184,6 +236,21 @@ void displayScene3(void)
         cameraZ = 17.20; 
         isThisFirstCall = FALSE; 
     }
+
+    // hut 
+    glPushMatrix(); 
+    {
+        glTranslatef(-1.50, 1.25, -14.05); 
+        glScalef(1.35, 1.35, 0.75); 
+        // hut 
+        // Draw trunk (cylinder)
+        drawCylinder(0.8f, 0.8f, 1.0f, 0.0, -1.0, 0.0, 2.0f, 2.0f, 2.0f, -90, 0, 0, texture_hut_base);
+
+        // Draw (cone) above the trunk
+        drawCone(1.0f, 1.0f, 0.0, 0.6f, 0.0, 2.0f, 2.0f, 2.0f, -90, 0, 0, texture_hut_top);
+    } 
+    glPopMatrix(); 
+
 
     glPushMatrix(); 
     displayCubemap(texture_cubemap, 75.0f, 75.0f, 75.0f);  
@@ -297,15 +364,17 @@ void displayScene3(void)
     billboard(-12.70, 1.35, -24.10, 2.65, 2.65, 1.00, texture_deer);  
     glDisable(GL_BLEND); 
 
+    Point butterflyPosition; 
+    if(butterflyCurveT <= 1.0f)
+        butterflyPosition = getPointOnBazierCurve(verticesForBazierCurve, 5, butterflyCurveT); 
+
     // butterfly 
     glPushMatrix();
-    glTranslatef(-3.65, 2.15, 17.05); 
+    glTranslatef(butterflyPosition.x, butterflyPosition.y, butterflyPosition.z); 
     glScalef(0.20, 0.85, 0.25);  
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);  
     drawButterfly(texture_lwing, texture_rwing, 0.0f, 0.0f, 1.0f, 1.0f); 
     glPopMatrix(); 
-
-    displayBazierCurve(verticesForBazierCurve, size); 
 }  
 
 void updateScene3(void) 
@@ -335,6 +404,14 @@ void updateScene3(void)
     }
 
     updatePeackock(); 
+
+    if(butterflyCurveT < 1.0f) 
+    {
+        butterflyCurveT = butterflyCurveT + 0.001f; 
+        if(butterflyCurveT > 1.0f) 
+            butterflyCurveT = 1.0f; 
+    } 
+
 } 
 
 void uninitializeScene3(void) 

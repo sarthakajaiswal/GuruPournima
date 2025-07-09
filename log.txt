@@ -17,6 +17,8 @@ Image loaded succesfully: Resources/bush3.png (451X570)
 Image loaded succesfully: Resources/bush4.png (448X529)
 Image loaded succesfully: Resources/bamboo_bark.png (1660X1423)
 Image loaded succesfully: Resources/deers.png (342X274)
+Image loaded succesfully: Resources/hut_base.png (1280X853)
+Image loaded succesfully: Resources/hut_top.png (1280X733)
 loaded - Resources/Cubemap/Day/right.png
 loaded - Resources/Cubemap/Day/left.png
 loaded - Resources/Cubemap/Day/top.png
@@ -26,4 +28,7 @@ loaded - Resources/Cubemap/Day/back.png
 Image loaded succesfully: Resources/peackock_feathers3.png (1080X1080)
 Image loaded succesfully: Resources/peackock_feathers3.png (1080X1080)
 initialize() completed successfully
+
+-1.50, 1.25, -14.05, 1.35, 1.35, 0.75
+0.00 0.00 0.00
 Programme terminated successfully

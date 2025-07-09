@@ -17,9 +17,10 @@ typedef struct BazierCurve
     size_t nr_vertices; 
 }BazierCurve; 
 
-BazierCurve* getBazierCurve(Point pointsArray[]); 
+// BazierCurve* getBazierCurve(Point pointsArray[]); 
 // void displayBazierCurve(BazierCurve* curve); 
-void displayBazierCurve(Point pointsArray[], size_t size); 
-void uninitializeBazierCurve(BazierCurve* curve); 
+void testdisplayBazierCurve(Point pointsArray[], size_t size); 
+Point getPointOnBazierCurve(Point pointsArray[], size_t size, double t); 
+// void uninitializeBazierCurve(BazierCurve* curve); 
 
 #endif 

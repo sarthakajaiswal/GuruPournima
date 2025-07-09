@@ -1,7 +1,7 @@
 #include "bazier.h" 
 
 extern FILE* gpFile; 
-
+/*
 BazierCurve* getBazierCurve(Point pointsArray[]) 
 {
     // variable declarations 
@@ -29,6 +29,7 @@ BazierCurve* getBazierCurve(Point pointsArray[])
     for(size_t i = 0; i < inputArrayNrElements; ++i) 
         pCurve->vertices[i] = pointsArray[i]; 
 } 
+*/ 
 
 float getPointOnBazierCurveX(Point bazierPoints[], int start_index, int end_index, double t) 
 {
@@ -58,7 +59,20 @@ float getPointOnBazierCurveZ(Point bazierPoints[], int start_index, int end_inde
         return ((1-t) * getPointOnBazierCurveZ(bazierPoints, start_index, end_index-1, t)) + (t * getPointOnBazierCurveZ(bazierPoints, start_index+1, end_index, t));  
 } 
 
-void displayBazierCurve(Point pointsArray[], size_t size) 
+Point getPointOnBazierCurve(Point pointsArray[], size_t size, double t) 
+{
+    // variable declarations 
+    Point retPoint; 
+
+    // code 
+    retPoint.x = getPointOnBazierCurveX(pointsArray, 0, size-1, t); 
+    retPoint.y = getPointOnBazierCurveY(pointsArray, 0, size-1, t); 
+    retPoint.z = getPointOnBazierCurveZ(pointsArray, 0, size-1, t); 
+
+    return (retPoint); 
+}
+
+void testdisplayBazierCurve(Point pointsArray[], size_t size) 
 {
     // variable declarations 
     float t = 0.0f; 
@@ -90,7 +104,10 @@ void displayBazierCurve(Point pointsArray[], size_t size)
     glEnd(); 
 } 
 
-
+/*
 
 void uninitializeBazierCurve(BazierCurve* curve) 
-{} 
+{}
+
+*/ 
+
