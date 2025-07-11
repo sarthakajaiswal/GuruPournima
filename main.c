@@ -1,11 +1,5 @@
 #include "main.h" 
 
-// #define LIGHTS 0x0000 
-// #define SCENE1 0x0001  
-// #define SCENE2 0x0010   
-#define SCENE3 0x0011   
-
-
 // global variable declarations 
 HWND ghwnd; 
 HDC ghdc; 
@@ -19,20 +13,11 @@ DWORD dwStyle;
 // gameloop related variables 
 BOOL gbActiveWindow = FALSE; 
 BOOL gbEscapeKeyIsPressed = FALSE; 
+BOOL bDone = FALSE; 
 
 // fileIO related variables 
 FILE* gpFile = NULL; 
 TCHAR gszgpFileName[] = TEXT("log.txt"); 
-
-// camera related variables 
-float cameraX = 0.0, cameraY, cameraZ = 32.0; 
-float cameraUpX = 0.0f, cameraUpY = 1.0f, cameraUpZ = 0.0f; 
-float cameraCenterX = 0.0f, cameraCenterY = 0.0f, cameraCenterZ = -10.0f; 
-
-// translation related variables 
-float tx, ty = 0.0f, tz, sx = 1.0f, sy = 1.0f, sz= 1.0f, rx, ry, rz; 
-const float translation_step = 0.05f; 
-const float scale_step = 0.05f;  
 
 // lights related variables 
 BOOL bLight = TRUE; 
@@ -40,7 +25,18 @@ BOOL bLight = TRUE;
 // fog related variables 
 BOOL gbFogEnabled = TRUE; 
 
+// camera related variables 
+float cameraX = 0.0, cameraY, cameraZ = 32.0; 
+float cameraUpX = 0.0f, cameraUpY = 1.0f, cameraUpZ = 0.0f; 
+float cameraCenterX = 0.0f, cameraCenterY = 0.0f, cameraCenterZ = -20.0f; 
+
+// translation related variables 
+float tx, ty = 0.0f, tz, sx = 1.0f, sy = 1.0f, sz= 1.0f, rx, ry, rz; 
+const float translation_step = 0.05f; 
+const float scale_step = 0.05f;  
+
 unsigned long long mainTimer = 0; 
+short shotNumber = 4; 
 
 // entry-point function 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int nShowCmd) 
@@ -59,7 +55,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
     MSG msg; 
     TCHAR szAppName[] = TEXT("Guru Pournima Demo"); 
     TCHAR szClassName[] = TEXT("RTR6"); 
-    BOOL bDone = FALSE; 
 
     // code 
     // create a log file 
@@ -470,31 +465,17 @@ int initialize(void)
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); 
 
     // initialize scenes 
-    #ifdef SCENE1 
-        initScene1(); 
-        // gbFogEnabled = TRUE; 
-    #endif 
-
-    #ifdef SCENE2 
-        gbFogEnabled = TRUE; 
-        initScene2(); 
-    #endif 
-
-    #ifdef SCENE3
-        initScene3(); 
-    #endif 
-
-    #ifdef LIGHTS 
-        initLights(); 
-    #endif 
-
+    initLights(); 
+    initScene1(); 
+    initScene2();   
+    initScene3(); 
+    initScene4(); 
     
-    // glEnable(GL_LIGHTING); 
-    // glEnable(GL_LIGHT3); 
-    // initializeAudio(); 
-    // playAudio(); 
+    initializeFade(); 
+    initializeAudio(); 
+    playAudio(); 
 
-    PlayBackgroundMusic(); 
+    // PlayBackgroundMusic(); 
 
     // warm up resize 
     resize(WIN_WIDTH, WIN_HEIGHT); 
@@ -526,6 +507,8 @@ void resize(int width, int height)
     ); 
 }
 
+extern BOOL isFading;  
+
 void display(void) 
 {
     // code 
@@ -536,7 +519,6 @@ void display(void)
 
     // set to identity matrix 
     glLoadIdentity(); 
-    glTranslatef(0.0f, 0.0f, -5.0f); 
 
     gluLookAt(
 		cameraX, cameraY, cameraZ, 
@@ -544,17 +526,25 @@ void display(void)
 		cameraUpX, cameraUpY, cameraUpZ
 	); 
 
-    #ifdef SCENE1 
+    if(shotNumber == 1) {
         displayScene1(); 
-    #endif 
-
-    #ifdef SCENE2 
+    }
+    
+    if(shotNumber == 2) {
         displayScene2(); 
-    #endif 
+    }
 
-    #ifdef SCENE3 
+    if(shotNumber == 3) {
+        // display nothing 
+    }
+
+    if(shotNumber == 4) {
         displayScene3(); 
-    #endif 
+    } 
+
+    if(shotNumber == 5) {
+        displayScene4(); 
+    }
 
     // swap buffers 
     SwapBuffers(ghdc); 
@@ -562,19 +552,34 @@ void display(void)
 
 void update(void) 
 {
+    // variable declarations 
+    extern unsigned int shot3WaitTimer; 
+
     // code 
-    #ifdef SCENE1 
+    if(shotNumber == 1) {
         updateScene1(); 
-    #endif 
+    }
 
-    #ifdef SCENE2 
+    if(shotNumber == 2) {
         updateScene2(); 
-    #endif 
+    }
 
-    #ifdef SCENE3
+    if(shotNumber == 4) {
         updateScene3(); 
-    #endif 
+    } 
 
+    if(shotNumber == 5) {
+        updateScene4(); 
+    }
+
+    if(shotNumber == 3 && shot3WaitTimer > 0) 
+    {
+        shot3WaitTimer -= 1; 
+        if(shot3WaitTimer <= 0)
+            shotNumber++; 
+    }     
+
+    updateFade(); 
     mainTimer = mainTimer + 1; 
 } 
 
@@ -629,6 +634,11 @@ void uninitialize(void)
     void toggleFullScreen(void); 
 
     // code 
+    uninitializeScene1(); 
+    uninitializeScene2(); 
+    uninitializeScene3(); 
+    uninitializeScene4(); 
+
     if(gbFullScreen) 
     {
         toggleFullScreen(); 

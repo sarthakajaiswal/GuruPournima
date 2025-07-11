@@ -20,7 +20,7 @@ static float featherRx, featherRy, featherRz;
 static float leftLegThighRy, leftLegCalfRy; 
 static float rightLegThighRy, rightLegCalfRy; 
 static BOOL isLeftLegAnimating, isRightLegAnimating; 
-static BOOL showingFeathers = FALSE; 
+BOOL showingFeathers = FALSE; 
 
 
 void initPeackock(void) 
@@ -272,16 +272,16 @@ void updatePeackock(void)
     {
         if(leftLegThighRy > -42.0 && leftLegFlag == FALSE) 
         {
-            leftLegThighRy -= 0.02; 
-            leftLegCalfRy += 0.05; 
+            leftLegThighRy -= 0.2; 
+            leftLegCalfRy += 0.5; 
 
             if(leftLegThighRy <= -42.0) 
                 leftLegFlag = TRUE; 
         }
         else 
         {
-            leftLegThighRy += 0.02; 
-            leftLegCalfRy -= 0.05;
+            leftLegThighRy += 0.2; 
+            leftLegCalfRy -= 0.5;
             if(leftLegThighRy >= -20.0f) 
             {
                 leftLegFlag = FALSE; 
@@ -289,8 +289,6 @@ void updatePeackock(void)
                 isRightLegAnimating = TRUE; 
             } 
         }
-
-        positionX += translation_speed * 0.001; 
     } 
 
     // rightLeg animation 
@@ -299,16 +297,16 @@ void updatePeackock(void)
     {
         if(rightLegThighRy > -42.0 && rightLegFlag == FALSE) 
         {
-            rightLegThighRy -= 0.02; 
-            rightLegCalfRy += 0.05; 
+            rightLegThighRy -= 1; 
+            rightLegCalfRy += 2.5; 
 
             if(rightLegThighRy <= -42.0) 
                 rightLegFlag = TRUE; 
         }
         else 
         {
-            rightLegThighRy += 0.02; 
-            rightLegCalfRy -= 0.05;
+            rightLegThighRy += 1; 
+            rightLegCalfRy -= 2.5;
             if(rightLegThighRy >= -20.0f) 
             {
                 rightLegFlag = FALSE; 
@@ -316,8 +314,6 @@ void updatePeackock(void)
                 isLeftLegAnimating = TRUE; 
             } 
         }
-
-        positionX += translation_speed * 0.001; 
     } 
 } 
 

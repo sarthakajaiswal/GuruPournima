@@ -2,7 +2,7 @@
 #include "fog.h" 
 
 GLfloat fogColor[4] = {0.2f, 0.2f, 0.21f, 0.5f}; 
-GLfloat fogDensity = 0.025f; 
+GLfloat fogDensity = 0.015f; 
 GLfloat fogMode = GL_EXP2; 
 GLfloat fogStart = 0.2f; 
 GLfloat fogEnd = 2000.0f; 

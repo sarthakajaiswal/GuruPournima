@@ -15,6 +15,8 @@
 #include "../../Effects/Cubemap/cubemap.h" 
 #include "../../Objects\Grass\grass.h" 
 #include "../../Objects\Peackock\peackock.h" 
+#include "../../Objects\Butterfly\butterfly.h" 
+#include "../../Objects\Hut\hut.h" 
 #include "../../Common/BazierCurve/bazier.h"
 
 int initScene3(void); 

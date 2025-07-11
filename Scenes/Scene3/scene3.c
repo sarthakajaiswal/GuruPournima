@@ -3,6 +3,8 @@
 extern FILE* gpFile; 
 extern float tx, ty, tz, sx, sy, sz; 
 extern float cameraX, cameraY, cameraZ; 
+extern float cameraCenterX, cameraCenterY, cameraCenterZ; 
+extern short shotNumber; 
 
 static GLuint textures_tree_bark[5]; 
 static GLuint textures_tree_leaves[2]; 
@@ -16,8 +18,6 @@ static GLuint texture_bush4;
 static GLuint texture_bamboo_tree; 
 static GLuint texture_deer; 
 
-static GLuint texture_lwing, texture_rwing; 
-
 static GLUquadric* scene3Quadric; 
 
 static const char* cubemapImages[6] = {
@@ -30,31 +30,28 @@ static const char* cubemapImages[6] = {
 }; 
 static GLuint texture_cubemap; 
 
+// butterfly related 
 double butterflyCurveT = 0.0f; 
 
+// water related 
+float meltOffset = 0.0f;
 
-
-GLuint texture_hut_base; 
-GLuint texture_hut_top; 
-
-
+// peackock related variables 
+float peackockX = -17.10f;  
+float peackockRotateAngleY = 0.0f;
 
 int initScene3(void) 
 {
+    // code 
     assert(loadGLPngTexture(&textures_tree_bark[0], "Resources/bark1.png")); 
     assert(loadGLPngTexture(&textures_tree_bark[1], "Resources/bark2.png")); 
     assert(loadGLPngTexture(&textures_tree_bark[2], "Resources/bark3.png")); 
     assert(loadGLPngTexture(&textures_tree_bark[3], "Resources/bark4.png")); 
     assert(loadGLPngTexture(&textures_tree_bark[4], "Resources/bark5.png")); 
-
     assert(loadGLPngTexture(&textures_tree_leaves[0], "Resources/tree1.png")); 
     assert(loadGLPngTexture(&textures_tree_leaves[1], "Resources/tree2.png"));  
-
     assert(loadGLPngTexture(&texture_ground, "Resources/grass1.png")); 
     assert(loadGLPngTexture(&texture_water, "Resources/water.png")); 
-    
-    assert(loadGLPngTexture(&texture_lwing, "Resources/wing_left.png")); 
-    assert(loadGLPngTexture(&texture_rwing, "Resources/wing_right.png")); 
     assert(loadGLPngTexture(&texture_shore, "Resources/shore.png")); 
     assert(loadGLPngTexture(&texture_bush1, "Resources/bush1.png")); 
     assert(loadGLPngTexture(&texture_bush2, "Resources/bush2.png")); 
@@ -62,13 +59,9 @@ int initScene3(void)
     assert(loadGLPngTexture(&texture_bush4, "Resources/bush4.png")); 
     assert(loadGLPngTexture(&texture_bamboo_tree, "Resources/bamboo_bark.png")); 
     assert(loadGLPngTexture(&texture_deer, "Resources/deers.png")); 
-    assert(loadGLPngTexture(&texture_hut_base, "Resources/hut_base.png")); 
-    assert(loadGLPngTexture(&texture_hut_top, "Resources/hut_top.png")); 
-
 
     texture_cubemap = loadCubeMap(cubemapImages, STBI_rgb_alpha); 
-    // initializeBoy(); 
-
+    
     scene3Quadric = gluNewQuadric(); 
     if(scene3Quadric == NULL) 
     {
@@ -76,164 +69,40 @@ int initScene3(void)
         return (-3); 
     }
     gluQuadricTexture(scene3Quadric, GL_TRUE);
-
-    // initFog(); 
-    // enableFog(); 
+    
+    // enableFog();  
+    initFog(); 
     initGrass(0.2, 0.6, 20.0f, 10000);  
     initPeackock(); 
+    initButterfly("Resources/wing_left.png", "Resources/wing_right.png"); 
+    initializeBoy(); 
+    initHut("Resources/hut_base.png", "Resources/hut_top.png"); 
     
     return (0); 
 } 
-
-float meltOffset = 0.0f;
-
-void drawWaterSurface(float offset, float width, float depth, int slices) {
-	float halfwidth = width / 2.0f;
-	float halfdepth = depth / 2.0f;
-	float waveFrequency = 10.0f;
-	float waveAmplitude = 0.05f;
-
-	float dx = width / slices;
-	float dz = depth / slices;
-	
-	for (int i = 0; i < slices; i++) 
-	{
-		float z = -halfdepth + i * dz;
-		glBegin(GL_TRIANGLE_STRIP);
-		for (int j = 0; j <= slices; j++) {
-			float x = -halfwidth + j * dx;
-
-			float y1 = sin(waveFrequency * x + offset) * waveAmplitude
-				+ cos(waveFrequency * z + offset) * waveAmplitude;
-			float y2 = sin(waveFrequency * x + offset) * waveAmplitude
-				+ cos(waveFrequency * (z + dz) + offset) * waveAmplitude;
-
-			glTexCoord2f(j / (float)slices, i / (float)slices);
-			glVertex3f(x, y1, z);
-
-			glTexCoord2f(j / (float)slices, (i + 1) / (float)slices);
-			glVertex3f(x, y2, z + dz);
-		}
-		glEnd();
-	}
-}
-
-float rx, ry, rz; 
-
-
-float wingAngle = 0.0f; 
-void drawButterfly(GLuint texture_lwing, GLuint texture_rwing, float x, float y, float sx, float sy)
-{
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glColor3f(1.0f, 1.0f, 1.0f);  // no tint
-
-	// Left Wing
-	glPushMatrix();
-	{
-		glTranslatef(x, y, 0.0f);  // Position the butterfly
-		glScalef(sx, sy, 1.0f);    // Scale it
-		glTranslatef(-0.0005f, 0.0f, 0.0f);  // Slight shift for flapping center
-		glRotatef(wingAngle, 0.0f, 1.0f, 0.0f);  // flap outward
-
-		glBindTexture(GL_TEXTURE_2D, texture_lwing);
-		glBegin(GL_QUADS);
-		glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f, 1.0f, 0.0f);
-		glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f, 1.0f, 0.0f);
-		glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f, 0.0f);
-		glTexCoord2f(1.0f, 0.0f); glVertex3f(0.0f, -1.0f, 0.0f);
-		glEnd();
-	}
-	glPopMatrix();
-
-	// Right Wing
-	glPushMatrix();
-	{
-		glTranslatef(x, y, 0.0f);  // Same position
-		glScalef(sx, sy, 1.0f);
-		glTranslatef(0.0005f, 0.0f, 0.0f);  // Shift right for pivot
-		glRotatef(-wingAngle, 0.0f, 1.0f, 0.0f);  // flap outward
-
-		glBindTexture(GL_TEXTURE_2D, texture_rwing);
-		glBegin(GL_QUADS);
-		glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, 1.0f, 0.0f);
-		glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f, 1.0f, 0.0f);
-		glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f, -1.0f, 0.0f);
-		glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f, -1.0f, 0.0f);
-		glEnd();
-	}
-	glPopMatrix();
-
-	glDisable(GL_BLEND);
-} 
-
-
-
-
-
-
-
-
-
-extern float tx, ty, tz, sx, sy, sz, rx, ry, rz; 
-
-
-void drawCylinder(float base, float top, float height, float tx, float ty, float tz,float sx, float sy, float sz,float rox, float roy, float roz, GLuint textureID)
-{
-	glEnable(GL_TEXTURE_2D);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);  // Use texture color directly
-	glEnable(GL_BLEND);
-	GLUquadric* quad = gluNewQuadric();
-	gluQuadricTexture(quad, GL_TRUE);
-	glPushMatrix();
-	{
-		glTranslatef(tx, ty, tz);
-		glScalef(sx, sy, sz);
-		glRotatef(rox, 1.0f, 0.0f, 0.0f);
-		glRotatef(roy, 0.0f, 1.0f, 0.0f);
-		glRotatef(roz, 0.0f, 0.0f, 1.0f);
-		glBindTexture(GL_TEXTURE_2D, textureID);
-		gluCylinder(quad, base, top, height, 30, 30);
-	}
-	glPopMatrix();
-	glDisable(GL_BLEND);
-}
-void drawCone(float base, float height, float tx, float ty, float tz, float sx, float sy, float sz, float rox, float roy, float roz, GLuint textureID)
-{
-	glEnable(GL_TEXTURE_2D);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);  // Use texture color directly
-	glEnable(GL_BLEND);
-	GLUquadric* quad = gluNewQuadric();
-	gluQuadricTexture(quad, GL_TRUE);
-	glPushMatrix();
-	{
-		glTranslatef(tx, ty, tz);
-		glScalef(sx, sy, sz);
-		glRotatef(rox, 1.0f, 0.0f, 0.0f);
-		glRotatef(roy, 0.0f, 1.0f, 0.0f);
-		glRotatef(roz, 0.0f, 0.0f, 1.0f);
-		
-		glBindTexture(GL_TEXTURE_2D,textureID);
-		gluCylinder(quad, base, 0.0, height, 30, 30);  //base,top,height,slices,stacks
-	}
-	glPopMatrix();
-	glDisable(GL_BLEND);
-}
 
 
 void displayScene3(void) 
 {
     // variable declarations 
     static float isThisFirstCall = TRUE; 
-
     Point verticesForBazierCurve[] = {{-3.65, 2.15, 17.05}, {-3.65, 4.25, 14.80}, {1.00, 5.55, 9.80}, {-3.95, 3.50, 11.20}, {1.30, 3.25, 20.20}}; 
     size_t size = 5; 
+
+    static BOOL isFadedIn = FALSE; 
 
     // code 
     if(isThisFirstCall) 
     {
-        cameraY = 3.20f; 
-        cameraZ = 17.20; 
+        cameraX = 0.0f; 
+        cameraY = 3.80f; 
+        cameraZ = 22.20; 
+        cameraCenterX = -0.40f; 
+        cameraCenterY = 0.20f; 
+        cameraCenterZ = -20.0f; 
+
+        glDisable(GL_FOG); 
+
         isThisFirstCall = FALSE; 
     }
 
@@ -242,16 +111,11 @@ void displayScene3(void)
     {
         glTranslatef(-1.50, 1.25, -14.05); 
         glScalef(1.35, 1.35, 0.75); 
-        // hut 
-        // Draw trunk (cylinder)
-        drawCylinder(0.8f, 0.8f, 1.0f, 0.0, -1.0, 0.0, 2.0f, 2.0f, 2.0f, -90, 0, 0, texture_hut_base);
-
-        // Draw (cone) above the trunk
-        drawCone(1.0f, 1.0f, 0.0, 0.6f, 0.0, 2.0f, 2.0f, 2.0f, -90, 0, 0, texture_hut_top);
+        displayHut(); 
     } 
     glPopMatrix(); 
 
-
+    // cubemap 
     glPushMatrix(); 
     displayCubemap(texture_cubemap, 75.0f, 75.0f, 75.0f);  
     glPopMatrix(); 
@@ -307,36 +171,44 @@ void displayScene3(void)
     glPopMatrix(); 
     glBindTexture(GL_TEXTURE_2D, 0); 
 
-
-    // mountains 
-    // drawPyramid(tx, ty, tz, sx, sy, sz, 1.0f, 1.0f, 1.0f, 0);  
-
     // water 
     glPushMatrix(); 
-    glTranslatef(23.40, -0.70, -22.95);
-    glScalef(11.65, 2.15, 26.0);  
-    glBindTexture(GL_TEXTURE_2D, texture_water);
-	drawWaterSurface(meltOffset, 3.0f, 3.0f, 50.0f); 
+    {
+        glTranslatef(23.40, -0.70, -22.95);
+        // glTranslatef(tx, ty, tz); 
+        glScalef(11.65, 2.15, 26.0);  
+        glBindTexture(GL_TEXTURE_2D, texture_water);
+        drawWaterSurface(meltOffset, 3.0f, 3.0f, 50.0f); 
+        glBindTexture(GL_TEXTURE_2D, 0); 
+    } 
     glPopMatrix(); 
 
     // grass 
     glPushMatrix(); 
-    glTranslatef(-20.70, -0.00, -17.45);
-    glScalef(0.55, 1.70, 2.30);  
-    displayGrass(); 
+    {
+        glTranslatef(-20.70, -0.00, -17.45);
+        glScalef(0.55, 1.70, 2.30);  
+        displayGrass(); 
+    } 
     glPopMatrix(); 
 
+    // deer 
+    glEnable(GL_BLEND); 
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
+    billboard(-12.70, 1.35, -24.10, 2.65, 2.65, 1.00, texture_deer);  
+    glDisable(GL_BLEND); 
+
     // peackock 
+    extern BOOL showingFeathers;  
     glPushMatrix(); 
-    glTranslatef(-17.10, 1.45, -0.25);
+    glTranslatef(peackockX, 1.45, -0.25);
     glScalef(0.40, 0.35, 0.50);  
+    glRotatef(peackockRotateAngleY, 0.0f, 1.0f, 0.0f); 
     displayPeackock();  
     glPopMatrix(); 
-    glPushMatrix(); 
-    glTranslatef(-19.10, 1.45, -0.25);
-    glScalef(0.40, 0.35, 0.50);  
-    displayPeackock();  
-    glPopMatrix(); 
+
+    if(peackockX >= -2.40f)
+        showingFeathers = TRUE; 
 
     // bamboo tree 
     glPushMatrix(); 
@@ -357,28 +229,37 @@ void displayScene3(void)
     billboard(-4.65, 1.00, 14.80, 1.50, 1.30, 1.85, texture_bush3);  
     billboard(3.30, 1.00, 17.20, 0.70, 1.75, 1.35, texture_bush4);  
     billboard(3.30, 1.00, 17.20, 0.70, 1.75, 1.35, texture_bush4);  
-    billboard(-8.45, 0.95, -8.30, 0.95, 1.00, 1.00, texture_bush4);  
-    // billboard(tx, ty, tz, sx, sy, sz, texture_bush4);  
-    
-    // deer 
-    billboard(-12.70, 1.35, -24.10, 2.65, 2.65, 1.00, texture_deer);  
+    billboard(-8.45, 0.95, -8.30, 0.95, 1.00, 1.00, texture_bush4);      
     glDisable(GL_BLEND); 
-
+    
+    // butterfly 
     Point butterflyPosition; 
     if(butterflyCurveT <= 1.0f)
         butterflyPosition = getPointOnBazierCurve(verticesForBazierCurve, 5, butterflyCurveT); 
 
-    // butterfly 
     glPushMatrix();
     glTranslatef(butterflyPosition.x, butterflyPosition.y, butterflyPosition.z); 
     glScalef(0.20, 0.85, 0.25);  
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);  
-    drawButterfly(texture_lwing, texture_rwing, 0.0f, 0.0f, 1.0f, 1.0f); 
+    displayButterfly(); 
     glPopMatrix(); 
+
+    if(isFadedIn == FALSE) 
+    {
+        if(fadeIn() == FALSE)
+            isFadedIn = TRUE; // fadeIn() return FALSE when fadein is completed     
+    }
 }  
 
 void updateScene3(void) 
 {
+    // variable declarations 
+    extern float peackockXupdateStep; 
+    extern float peackockRotateAngleYUpdateStep; 
+    extern int butterflyWaitTimer; 
+    extern int scene3WaitTimer; 
+
+    // code 
     updateGrass(); 
 
     // water update 
@@ -388,34 +269,44 @@ void updateScene3(void)
         meltOffset = 0.0f;
     }
 
-    // butterfly update 
-    static BOOL butterflyWingFlag = TRUE; 
-    if(butterflyWingFlag) 
-    {
-        wingAngle += 1.2f; 
-        if(wingAngle >= 10.0f) 
-            butterflyWingFlag = FALSE; 
-    } 
-    else 
-    {
-        wingAngle -= 1.2f; 
-        if(wingAngle <= -20.0f) 
-            butterflyWingFlag = TRUE; 
-    }
+    // peackock 
+    if(peackockX <= -2.40f)
+        peackockX += peackockXupdateStep; 
+    
+    if(peackockX > -2.40f && peackockRotateAngleY > -90.0f) 
+        peackockRotateAngleY -= peackockRotateAngleYUpdateStep; 
 
     updatePeackock(); 
 
-    if(butterflyCurveT < 1.0f) 
+    if(butterflyWaitTimer <= 0) 
     {
-        butterflyCurveT = butterflyCurveT + 0.001f; 
-        if(butterflyCurveT > 1.0f) 
-            butterflyCurveT = 1.0f; 
+        if(butterflyCurveT < 1.0f) 
+        {
+            butterflyCurveT = butterflyCurveT + 0.001f; 
+            if(butterflyCurveT > 1.0f) 
+                butterflyCurveT = 1.0f; 
+        } 
+        updateButterfly(); 
     } 
+    else 
+    {
+        butterflyWaitTimer -= 1; 
+    }
 
+    updateFade(); 
+
+    if(scene3WaitTimer > 0) 
+    {
+        // scene3WaitTimer -= 1; 
+        if(scene3WaitTimer <= 0) 
+            shotNumber++; 
+    }
 } 
 
 void uninitializeScene3(void) 
 {
     uninitializeGrass(); 
     uninitializePeackock(); 
+    uninitializeButterfly(); 
+    uninitializeHut(); 
 }

@@ -1,401 +1,150 @@
 #include "scene1.h" 
 
-#define DEPTH_OF_ALPHABETS  2.0f 
-// #define WIDTH_OF_ALPHABETS  0.3f 
-
 extern FILE* gpFile; 
 extern unsigned long long mainTimer; 
+extern float DEPTH_OF_ALPHABETS; 
+extern float cameraX, cameraY, cameraZ, cameraCenterX, cameraCenterY, cameraCenterZ; 
+extern float tx, ty, tz; 
+extern short shotNumber; 
 
-float angle=0.0f; 
+extern unsigned int beat01time, beat02time, beat03time, beat04time, beat05time, beat06time, beat07time, beat08time, beat09time, beat10time, beat11time, beat12time, beat13time, beat14time, beat15time; 
 
-void a(void) 
-{
-    struct Quad quads[] = {
-        // p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y, {r, g, b, a}
-        {0.15f, 1.0f, -0.15f, 1.0f, -1.0f, -1.0f, -0.7f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {0.15f, 1.0f, -0.15f, 1.0f, 0.7f, -1.0f, 1.0f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}
-    }; 
-
-    for(size_t i = 0; i < sizeof(quads)/sizeof(quads[0]); ++i) 
-        cubeFromQuad(quads+i, DEPTH_OF_ALPHABETS);  
-} 
-
-void t(void) 
-{
-    struct Quad quads[] = {
-        // p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y, {r, g, b, a}
-        {1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 0.7f, 1.0f, 0.7f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {0.15f, 1.0f, -0.15f, 1.0f, -0.15f, -1.0f, 0.15f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}
-    }; 
-
-    for(size_t i = 0; i < sizeof(quads)/sizeof(quads[0]); ++i) 
-        cubeFromQuad(quads+i, DEPTH_OF_ALPHABETS);  
-} 
-
-void m(void) 
-{
-    struct Quad quads[] = {
-        // p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y, {r, g, b, a}
-        {-0.7f, 1.0f, -1.0f, 1.0f, -1.0f, -1.0f, -0.7f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 0.7f, 1.0f, 0.7f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {0.15f, 1.0f, -0.15f, 1.0f, -0.15f, -1.0f, 0.15f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, 1.0f, 0.7f, 1.0f, 0.7f, -1.0f, 1.0f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}  
-    }; 
-
-    for(size_t i = 0; i < sizeof(quads)/sizeof(quads[0]); ++i) 
-        cubeFromQuad(quads+i, DEPTH_OF_ALPHABETS);  
-} 
-
-void e(void) 
-{
-    struct Quad quads[] = {
-        // p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y, {r, g, b, a}
-        {-0.7f, 1.0f, -1.0f, 1.0f, -1.0f, -1.0f, -0.7f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 0.7f, 1.0f, 0.7f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {0.0f, 0.15f, -1.0f, 0.15f, -1.0f, -0.15f, 0.0f, -0.15f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, -0.7f, -1.0f, -0.7f, -1.0f, -1.0f, 1.0f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}
-    }; 
-
-    for(size_t i = 0; i < sizeof(quads)/sizeof(quads[0]); ++i) 
-        cubeFromQuad(quads+i, DEPTH_OF_ALPHABETS);  
-} 
-
-void i(void) 
-{
-    struct Quad quads[] = {
-        // p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y, {r, g, b, a}
-        {1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 0.7f, 1.0f, 0.7f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {0.15f, 1.0f, -0.15f, 1.0f, -0.15f, -1.0f, 0.15f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, -0.7f, -1.0f, -0.7f, -1.0f, -1.0f, 1.0f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}
-    }; 
-
-    for(size_t i = 0; i < sizeof(quads)/sizeof(quads[0]); ++i) 
-        cubeFromQuad(quads+i, DEPTH_OF_ALPHABETS);  
-} 
-
-void p(void) 
-{
-    struct Quad quads[] = {
-        // p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y, {r, g, b, a}
-        {-0.7f, 1.0f, -1.0f, 1.0f, -1.0f, -1.0f, -0.7f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 0.7f, 1.0f, 0.7f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, 1.0f, 0.7f, 1.0f, 0.7f, 0.0f, 1.0f, 0.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, 0.15f, -1.0f, 0.15f, -1.0f, -0.15f, 1.0f, -0.15f, {1.0f, 1.0f, 1.0f, 1.0f}} 
-    }; 
-
-    for(size_t i = 0; i < sizeof(quads)/sizeof(quads[0]); ++i) 
-        cubeFromQuad(quads+i, DEPTH_OF_ALPHABETS);  
-} 
-
-void r(void) 
-{
-    struct Quad quads[] = {
-        // p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y, {r, g, b, a}
-        {-0.7f, 1.0f, -1.0f, 1.0f, -1.0f, -1.0f, -0.7f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 0.7f, 1.0f, 0.7f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, 1.0f, 0.7f, 1.0f, 0.7f, 0.0f, 1.0f, 0.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, 0.15f, -1.0f, 0.15f, -1.0f, -0.15f, 1.0f, -0.15f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {0.5f, 0.0f, 0.2f, 0.0f, 0.7f, -1.0f, 1.0f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}  
-    }; 
-
-    for(size_t i = 0; i < sizeof(quads)/sizeof(quads[0]); ++i) 
-        cubeFromQuad(quads+i, DEPTH_OF_ALPHABETS);  
-} 
-
-void o(void) 
-{
-    struct Quad quads[] = {
-        // p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y, {r, g, b, a}
-        {1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 0.7f, 1.0f, 0.7f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {-0.7f, 1.0f, -1.0f, 1.0f, -1.0f, -1.0f, -0.7f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, -0.7f, -1.0f, -0.7f, -1.0f, -1.0f, 1.0f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, 1.0f, 0.7f, 1.0f, 0.7f, -1.0f, 1.0f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}  
-    }; 
-
-    for(size_t i = 0; i < sizeof(quads)/sizeof(quads[0]); ++i) 
-        cubeFromQuad(quads+i, DEPTH_OF_ALPHABETS);  
-} 
-
-void s(void) 
-{
-    struct Quad quads[] = {
-        // p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y, {r, g, b, a}
-        {1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 0.7f, 1.0f, 0.7f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {-0.7f, 1.0f, -1.0f, 1.0f, -1.0f, 0.0f, -0.7f, 0.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, 0.15f, -1.0f, 0.15f, -1.0f, -0.15f, 1.0f, -0.15f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, 0.0f, 0.7f, 0.0f, 0.7f, -1.0f, 1.0f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, -0.7f, -1.0f, -0.7f, -1.0f, -1.0f, 1.0f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}
-    }; 
-
-    for(size_t i = 0; i < sizeof(quads)/sizeof(quads[0]); ++i) 
-        cubeFromQuad(quads+i, DEPTH_OF_ALPHABETS);     
-} 
-
-void d(void) 
-{
-    struct Quad quads[] = {
-        // p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y, {r, g, b, a}
-        {1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 0.7f, 1.0f, 0.7f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {-0.4f, 1.0f, -0.7f, 1.0f, -0.7f, -1.0f, -0.4f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, -0.7f, -1.0f, -0.7f, -1.0f, -1.0f, 1.0f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, 1.0f, 0.7f, 1.0f, 0.7f, -1.0f, 1.0f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}  
-    }; 
-
-    for(size_t i = 0; i < sizeof(quads)/sizeof(quads[0]); ++i) 
-        cubeFromQuad(quads+i, DEPTH_OF_ALPHABETS);  
-} 
-
-void c(void) 
-{
-    struct Quad quads[] = {
-        // p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y, {r, g, b, a}
-        {1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 0.7f, 1.0f, 0.7f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {-0.7f, 1.0f, -1.0f, 1.0f, -1.0f, -1.0f, -0.7f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, -0.7f, -1.0f, -0.7f, -1.0f, -1.0f, 1.0f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}} 
-    }; 
-
-    for(size_t i = 0; i < sizeof(quads)/sizeof(quads[0]); ++i) 
-        cubeFromQuad(quads+i, DEPTH_OF_ALPHABETS);  
-} 
-
-void f(void) 
-{
-    struct Quad quads[] = {
-        // p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y, {r, g, b, a}
-        {-0.7f, 1.0f, -1.0f, 1.0f, -1.0f, -1.0f, -0.7f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 0.7f, 1.0f, 0.7f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {0.0f, 0.15f, -1.0f, 0.15f, -1.0f, -0.15f, 0.0f, -0.15f, {1.0f, 1.0f, 1.0f, 1.0f}} 
-    }; 
-
-    for(size_t i = 0; i < sizeof(quads)/sizeof(quads[0]); ++i) 
-        cubeFromQuad(quads+i, DEPTH_OF_ALPHABETS);  
-} 
-
-void u(void) 
-{
-    struct Quad quads[] = {
-        // p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y, {r, g, b, a}
-        {-0.7f, 1.0f, -1.0f, 1.0f, -1.0f, -1.0f, -0.7f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, -0.7f, -1.0f, -0.7f, -1.0f, -1.0f, 1.0f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, 1.0f, 0.7f, 1.0f, 0.7f, -1.0f, 1.0f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}  
-    }; 
-
-    for(size_t i = 0; i < sizeof(quads)/sizeof(quads[0]); ++i) 
-        cubeFromQuad(quads+i, DEPTH_OF_ALPHABETS);  
-} 
-
-void n(void) 
-{
-    struct Quad quads[] = {
-        // p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y, {r, g, b, a}
-        {-0.7f, 1.0f, -1.0f, 1.0f, -1.0f, -1.0f, -0.7f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {-0.7f, 1.0f, -1.0f, 1.0f, 0.7f, -1.0f, 1.0f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, 1.0f, 0.7f, 1.0f, 0.7f, -1.0f, 1.0f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}  
-    }; 
-
-    for(size_t i = 0; i < sizeof(quads)/sizeof(quads[0]); ++i) 
-        cubeFromQuad(quads+i, DEPTH_OF_ALPHABETS);  
-}
-
-void six(void) 
-{
-    struct Quad quads[] = {
-        // p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y, {r, g, b, a}
-        {1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 0.7f, 1.0f, 0.7f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {-0.7f, 1.0f, -1.0f, 1.0f, -1.0f, -1.0f, -0.7f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, 0.15f, -1.0f, 0.15f, -1.0f, -0.15f, 1.0f, -0.15f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, 0.0f, 0.7f, 0.0f, 0.7f, -1.0f, 1.0f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}, 
-        {1.0f, -0.7f, -1.0f, -0.7f, -1.0f, -1.0f, 1.0f, -1.0f, {1.0f, 1.0f, 1.0f, 1.0f}}
-    }; 
-
-    for(size_t i = 0; i < sizeof(quads)/sizeof(quads[0]); ++i) 
-        cubeFromQuad(quads+i, DEPTH_OF_ALPHABETS);    
-}
-
-void (*scene1AlphabetFunctionsOfAstromedicomp[13])(void) = {a, s, t, r, o, m, e, d, i, c, o, m, p}; 
-void (*scene1AlphabetFunctionsOfFrustum[7])(void) = {f, r, u, s, t, u, m};
-void (*scene1AlphabetFunctionsOfPresents[8])(void) = {p, r, e, s, e, n, t, s};
-
-GLUquadric* scene1quadric = NULL; 
 void initScene1(void) 
 {
     // code 
-    scene1quadric = gluNewQuadric(); 
-    if(scene1quadric == NULL) 
-    {
-        fprintf(gpFile, "failed to create quadric for scene1\n"); 
-        uninitialize(); 
-        exit(EXIT_FAILURE); 
-    }
 }
 
-float translate; 
-size_t current_index = 0; 
 void displayScene1(void) 
 {
     // function declarations 
-    float translate = -19.5f; 
+    static BOOL isThisFirstCall = TRUE; 
+    static float astromedicompPositionY = 0.80f; 
+    static BOOL readyToFadeOut = FALSE; // when true fade-out starts 
 
     // code 
+    if(isThisFirstCall)
+    {
+        cameraX = -1.80; 
+        cameraY = 1.80; 
+        cameraZ = 28.00;
+        
+        cameraCenterX = -1.40; 
+        cameraCenterY = -0.20f; 
+        cameraCenterZ = -10.0f; 
+        
+        glEnable(GL_LIGHTING); 
+        glEnable(GL_LIGHT0); 
+        glEnable(GL_LIGHT1); 
+
+        isThisFirstCall = FALSE; 
+    }
+
     // draw atromedicomp 
-    if(mainTimer > 5000)
+    if(mainTimer > beat01time)
     {
         glPushMatrix(); 
-        glTranslatef(-19.5f, 4.0f, 0.0f); 
-        // scene1AlphabetFunctionsOfAstromedicomp[0](); 
+        glTranslatef(-19.5f, astromedicompPositionY, 0.0f); 
         a(); 
         glPopMatrix(); 
     } 
-    if(mainTimer > 20000)
+    if(mainTimer > beat02time)
     {
         glPushMatrix(); 
-        glTranslatef(-16.5f, 4.0f, 0.0f); 
-        // scene1AlphabetFunctionsOfAstromedicomp[1](); 
+        glTranslatef(-16.5f, astromedicompPositionY, 0.0f); 
         s(); 
         glPopMatrix(); 
     } 
-    if(mainTimer > 25000)
+    if(mainTimer > beat03time)
     {
         glPushMatrix(); 
-        glTranslatef(-13.5f, 4.0f, 0.0f); 
-        // scene1AlphabetFunctionsOfAstromedicomp[2](); 
+        glTranslatef(-13.5f, astromedicompPositionY, 0.0f); 
         t(); 
         glPopMatrix(); 
     } 
-    if(mainTimer > 25000)
+    if(mainTimer > beat04time)
     {
         glPushMatrix(); 
-        glTranslatef(-10.5f, 4.0f, 0.0f); 
-        // scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        glTranslatef(-10.5f, astromedicompPositionY, 0.0f); 
         r(); 
         glPopMatrix(); 
     } 
-    if(mainTimer > 25000)
+    if(mainTimer > beat05time)
     {
         glPushMatrix(); 
-        glTranslatef(-7.5f, 4.0f, 0.0f); 
-        // scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        glTranslatef(-7.5f, astromedicompPositionY, 0.0f); 
         o(); 
         glPopMatrix(); 
     } 
-    if(mainTimer > 25000)
+    if(mainTimer > beat06time)
     {
         glPushMatrix(); 
-        glTranslatef(-4.5f, 4.0f, 0.0f); 
-        // scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        glTranslatef(-4.5f, astromedicompPositionY, 0.0f); 
         m(); 
         glPopMatrix(); 
     } 
-    if(mainTimer > 25000)
+    if(mainTimer > beat07time)
     {
         glPushMatrix(); 
-        glTranslatef(-1.5f, 4.0f, 0.0f); 
-        // scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        glTranslatef(-1.5f, astromedicompPositionY, 0.0f); 
         e(); 
         glPopMatrix(); 
     } 
-    if(mainTimer > 25000)
+    if(mainTimer > beat08time)
     {
         glPushMatrix(); 
-        glTranslatef(1.5f, 4.0f, 0.0f); 
-        // scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        glTranslatef(1.5f, astromedicompPositionY, 0.0f); 
         d(); 
         glPopMatrix(); 
     } 
-    if(mainTimer > 25000)
+    if(mainTimer > beat09time)
     {
         glPushMatrix(); 
-        glTranslatef(4.5f, 4.0f, 0.0f); 
-        // scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        glTranslatef(4.5f, astromedicompPositionY, 0.0f); 
         i(); 
         glPopMatrix(); 
     } 
-    if(mainTimer > 25000)
+    if(mainTimer > beat10time)
     {
         glPushMatrix(); 
-        glTranslatef(7.5f, 4.0f, 0.0f); 
-        // scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        glTranslatef(7.5f, astromedicompPositionY, 0.0f); 
         c(); 
         glPopMatrix(); 
     } 
-    if(mainTimer > 25000)
+    if(mainTimer > beat11time)
     {
         glPushMatrix(); 
-        glTranslatef(11.5f, 4.0f, 0.0f); 
-        // scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        glTranslatef(10.5f, astromedicompPositionY, 0.0f); 
         o(); 
         glPopMatrix(); 
     } 
-    if(mainTimer > 25000)
+    if(mainTimer > beat12time)
     {
         glPushMatrix(); 
-        glTranslatef(14.5f, 4.0f, 0.0f); 
-        // scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        glTranslatef(13.5f, astromedicompPositionY, 0.0f); 
         m(); 
         glPopMatrix(); 
     } 
-    if(mainTimer > 25000)
+    if(mainTimer > beat13time)
     {
         glPushMatrix(); 
-        glTranslatef(17.5f, 4.0f, 0.0f); 
-        // scene1AlphabetFunctionsOfAstromedicomp[i](); 
+        glTranslatef(16.5f, astromedicompPositionY, 0.0f); 
         p(); 
         glPopMatrix(); 
     } 
-
-
-    // draw frustum  
-    // translate = -13.5f; 
-    // for(size_t i = 0; i < 7; ++i) 
-    // {
-    //     glPushMatrix(); 
-    //     glTranslatef(translate, 0.0f, 0.0f); 
-    //     scene1AlphabetFunctionsOfFrustum[i](); 
-    //     glPopMatrix(); 
-
-    //     translate += 3.0f; 
-    // } 
-
-    // // draw 6.0 
-    // glPushMatrix(); 
-    // glTranslatef(translate + 2.0f, 0.0f, 0.0f); 
-    // six(); 
-    // glPopMatrix(); 
-
-    // glPushMatrix(); 
-    // glTranslatef(translate + 4.0f, -0.8f, 0.0f); 
-    // gluSphere(scene1quadric, 0.3f, 8, 8); 
-    // glPopMatrix(); 
-
-    // glPushMatrix(); 
-    // glTranslatef(translate + 5.5f, 0.0f, 0.0f); 
-    // o(); 
-    // glPopMatrix(); 
-
-    // translate = -16.5f;
-    // for(size_t i = 0; 
-    //     i < sizeof(scene1AlphabetFunctionsOfPresents)/sizeof(scene1AlphabetFunctionsOfPresents[0]); 
-    //     ++i
-    // ) {
-    //     glPushMatrix(); 
-    //     glTranslatef(translate, -5.0f, 0.0f); 
-    //     scene1AlphabetFunctionsOfPresents[i](); 
-    //     glPopMatrix(); 
-
-    //     translate += 3.0f; 
-    // } 
 } 
 
 void updateScene1(void) 
 {
+    // code 
+    if(mainTimer > beat14time) 
+        updateLights(); 
+
+    if(mainTimer > beat15time) 
+        shotNumber++; 
 } 
 
 void uninitializeScene1(void) 
 {
-    if(scene1quadric) 
-    {
-        gluDeleteQuadric(scene1quadric); 
-        scene1quadric = NULL; 
-    } 
-}
+    // code 
+} 
 

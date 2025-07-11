@@ -55,7 +55,8 @@ BOOL initializeAudio(void)
     hResource = FindResource(NULL, MAKEINTRESOURCE(ID_MUSIC), TEXT("WAV")); 
     if(hResource == NULL) 
     {
-        fprintf(gpFile, "initializeAudio(): FindResource() failed\n"); 
+        fprintf(gpFile, "%lu\n", GetLastError()); 
+        // fprintf(gpFile, "initializeAudio(): FindResource() failed\n"); 
         return (FALSE); 
     }
 

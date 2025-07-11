@@ -1,6 +1,4 @@
-#include "geometry.h" 
-
-#include <gl/GL.h> 
+#include "geometry.h"
 
 void drawTexturedCube(
         float x, float y, float z, 
@@ -211,3 +209,55 @@ void drawPyramid(
         glBindTexture(GL_TEXTURE_2D, 0); 
     glPopMatrix(); 
 }
+
+void drawCylinder(float base, float top, float height, float tx, float ty, float tz,float sx, float sy, float sz,float rox, float roy, float roz, GLuint textureID)
+{
+	glEnable(GL_TEXTURE_2D);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);  // Use texture color directly
+	glEnable(GL_BLEND);
+	GLUquadric* quad = gluNewQuadric();
+	gluQuadricTexture(quad, GL_TRUE);
+	glPushMatrix();
+	{
+		glTranslatef(tx, ty, tz);
+		glScalef(sx, sy, sz);
+		glRotatef(rox, 1.0f, 0.0f, 0.0f);
+		glRotatef(roy, 0.0f, 1.0f, 0.0f);
+		glRotatef(roz, 0.0f, 0.0f, 1.0f);
+		glBindTexture(GL_TEXTURE_2D, textureID);
+		gluCylinder(quad, base, top, height, 30, 30);
+	}
+	glPopMatrix();
+	glDisable(GL_BLEND);
+
+    gluDeleteQuadric(quad); 
+    quad = NULL; 
+}
+
+void drawCone(float base, float height, float tx, float ty, float tz, float sx, float sy, float sz, float rox, float roy, float roz, GLuint textureID)
+{
+	glEnable(GL_TEXTURE_2D);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);  // Use texture color directly
+	glEnable(GL_BLEND);
+	GLUquadric* quad = gluNewQuadric();
+	gluQuadricTexture(quad, GL_TRUE);
+	glPushMatrix();
+	{
+		glTranslatef(tx, ty, tz);
+		glScalef(sx, sy, sz);
+		glRotatef(rox, 1.0f, 0.0f, 0.0f);
+		glRotatef(roy, 0.0f, 1.0f, 0.0f);
+		glRotatef(roz, 0.0f, 0.0f, 1.0f);
+		
+		glBindTexture(GL_TEXTURE_2D,textureID);
+		gluCylinder(quad, base, 0.0, height, 30, 30);  //base,top,height,slices,stacks
+        glBindTexture(GL_TEXTURE_2D, 0); 
+	}
+	glPopMatrix();
+	glDisable(GL_BLEND);
+
+    gluDeleteQuadric(quad); 
+    quad = NULL; 
+}
+
+

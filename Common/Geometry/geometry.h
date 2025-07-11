@@ -5,6 +5,7 @@
 #include <stdio.h> 
 
 #include <gl/GL.h> 
+#include <gl/GLU.h> 
 
 typedef enum FaceType{
     FACE_NONE =     0x000000, 
@@ -29,5 +30,20 @@ void drawPyramid(
     float r, float g, float b, float a, 
     GLuint texture 
 ); 
+void drawCylinder(
+    float base, float top, float height, 
+    float tx, float ty, float tz,
+    float sx, float sy, float sz,
+    float rox, float roy, float roz, 
+    GLuint textureID
+); 
+void drawCone(
+    float base, float height, 
+    float tx, float ty, float tz, 
+    float sx, float sy, float sz, 
+    float rox, float roy, float roz, 
+    GLuint textureID
+); 
+
 
 #endif /* _GEOMETRY_H */

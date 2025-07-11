@@ -14,10 +14,12 @@
 
 // scene header files 
 #include "Scenes/Scene1/scene1.h" 
+#include "Scenes/Scene4/scene4.h" 
 
 // Effects header files 
-// #include "Effects/Lights/lights.h" 
+#include "Effects/Lights/lights.h" 
 #include "Effects/Fog/fog.h" 
+#include "Effects/Fade/fade.h" 
 
 // audio 
 #include "Common/Audio/audio.h" 

@@ -13,6 +13,8 @@ static GLuint texture_jeans;
 static GLuint texture_tshirt; 
 static GLuint texture_wood; 
 
+extern float legUpdateSpeed;  
+
 int initializeBoy(void) 
 {
     // code 
@@ -146,25 +148,23 @@ void updateBoy(void)
 {
     // code 
     static BOOL legAngleFlag = TRUE;  
-    float legAngleStep = 0.06f; 
-
     static BOOL flameHeightFlag = TRUE; 
     float flameHeightStep = 0.0005f; 
 
     // leg and hand animation 
     if(legAngleFlag) 
     {
-        legAngle -= legAngleStep; 
+        legAngle -= legUpdateSpeed; 
 
-        if(legAngle < -12.0f)
+        if(legAngle < -16.0f)
             legAngleFlag = FALSE; 
 
     }
     else 
     {
-        legAngle += legAngleStep; 
+        legAngle += legUpdateSpeed; 
 
-        if(legAngle > 12.0f)
+        if(legAngle > 16.0f)
             legAngleFlag = TRUE; 
     }
 

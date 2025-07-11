@@ -11,6 +11,13 @@
         "scene3.h": "c",
         "assert.h": "c",
         "grass.h": "c",
-        "cmath": "c"
+        "cmath": "c",
+        "hut.h": "c",
+        "butterfly.h": "c",
+        "scene1.h": "c",
+        "cubic_alphabets.h": "c",
+        "vector": "c",
+        "lights.h": "c",
+        "scene4.h": "c"
     }
 }
