@@ -87,22 +87,26 @@ void displayScene2(void)
     // code 
     if(isThisFirstCall) 
     {
+        extern float updateFadeDensityStep; 
+     
         glDisable(GL_LIGHTING);
 
         cameraX = -2.40; 
         cameraY = 16.40; 
         cameraZ = 30.40; 
-
         cameraCenterX = -0.40; 
         cameraCenterY = -29.60; 
         cameraCenterZ = -20.00; 
 
+        updateFadeDensityStep = 0.004f; 
+
         isThisFirstCall = FALSE; 
+        return; 
     }
 
     glPushMatrix(); 
     glRotatef(180.0f, 0, 1, 0); // to adjust moon position | moon is in back in cubemap images, bringing it to front 
-    displayCubemap(texture_cubemap, 50.0f+tx, 50.0f+ty, 50.0f+tz);  
+    displayCubemap(texture_cubemap, 50.0f, 50.0f, 50.0f);  
     glPopMatrix(); 
 
     // ground 
@@ -206,7 +210,7 @@ void displayScene2(void)
         glTranslatef(cameraX, cameraY, cameraZ); 
         glEnable(GL_BLEND); 
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
-        glColor4f(0.0f, 0.0f, 0.0f, 0.75f); 
+        glColor4f(0.0f, 0.0f, 0.0f, 0.8f); 
         gluSphere(scene2Quadric, 0.3f, 12, 12); 
         glDisable(GL_BLEND); 
     glPopMatrix(); 
@@ -231,9 +235,16 @@ void displayScene2(void)
 void updateScene2(void) 
 {
     // variable declarations 
+    extern float scene2WaitTimer; 
     static int cameraMovementNumber = 1; 
 
     // code 
+    if(scene2WaitTimer > 0) 
+    {
+        scene2WaitTimer -= 1; 
+        return; 
+    }
+
     boyPosition -= boyTranslateSpeed; 
     updateBoy(); 
 

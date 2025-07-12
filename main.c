@@ -36,7 +36,7 @@ const float translation_step = 0.05f;
 const float scale_step = 0.05f;  
 
 unsigned long long mainTimer = 0; 
-short shotNumber = 4; 
+short shotNumber = 1; 
 
 // entry-point function 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int nShowCmd) 
@@ -475,8 +475,6 @@ int initialize(void)
     initializeAudio(); 
     playAudio(); 
 
-    // PlayBackgroundMusic(); 
-
     // warm up resize 
     resize(WIN_WIDTH, WIN_HEIGHT); 
 
@@ -615,18 +613,6 @@ void toggleFullScreen(void)
         ShowCursor(TRUE); 
     }
 } 
-
-void PlayBackgroundMusic()
-{
-    char buffer[MAX_PATH] = {0};
-    GetModuleFileName(NULL, buffer, MAX_PATH);
-    char *LastSlash = strrchr(buffer, '\\');
-    if (LastSlash == NULL)
-        LastSlash = strrchr(buffer, '/');
-    buffer[LastSlash - buffer] = 0;
-    strcat(buffer, "\\Resources/audio.wav");
-    PlaySound(buffer, NULL, SND_ASYNC | SND_LOOP);
-}
 
 void uninitialize(void) 
 {

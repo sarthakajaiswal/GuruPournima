@@ -18,6 +18,10 @@
         "cubic_alphabets.h": "c",
         "vector": "c",
         "lights.h": "c",
-        "scene4.h": "c"
+        "scene4.h": "c",
+        "xstring": "c",
+        "xutility": "c",
+        "al.h": "c",
+        "alc.h": "c"
     }
 }

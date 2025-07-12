@@ -39,6 +39,8 @@ void displayScene1(void)
         isThisFirstCall = FALSE; 
     }
 
+    fprintf(gpFile, "In scene1::display()\n"); 
+
     // draw atromedicomp 
     if(mainTimer > beat01time)
     {
@@ -136,6 +138,7 @@ void displayScene1(void)
 void updateScene1(void) 
 {
     // code 
+    fprintf(gpFile, "In scene1::update() : timer = \n", mainTimer); 
     if(mainTimer > beat14time) 
         updateLights(); 
 

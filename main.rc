@@ -3,4 +3,4 @@
 #include "Common/Audio/audio.h" 
 
 MYICON icon icon.ico
-ID_MUSIC wave "./Common/Audio/audio.wav" 
+AUDIO wave "Common/Audio/audio.wav" 

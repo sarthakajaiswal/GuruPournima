@@ -12,12 +12,13 @@
 #include "../../common/stb_image.h" 
 #include "../../common/Geometry/geometry.h" 
 #include "../../common/common.h" 
+#include "../../Common/BazierCurve/bazier.h"
+
 #include "../../Effects/Cubemap/cubemap.h" 
+
 #include "../../Objects\Grass\grass.h" 
-#include "../../Objects\Peackock\peackock.h" 
 #include "../../Objects\Butterfly\butterfly.h" 
 #include "../../Objects\Hut\hut.h" 
-#include "../../Common/BazierCurve/bazier.h"
 
 int initScene3(void); 
 void displayScene3(void); 

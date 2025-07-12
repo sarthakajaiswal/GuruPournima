@@ -10,7 +10,7 @@ int initHut(const char* base_texture_image, const char* top_texture_image)
         fprintf(gpFile, "failed to load texture for base of hut\n"); 
         return (-1); 
     }
-    if(!loadGLPngTexture(&texture_hut_base, top_texture_image)) 
+    if(!loadGLPngTexture(&texture_hut_top, top_texture_image)) 
     {
         fprintf(gpFile, "failed to load texture for top of hut\n"); 
         return (-2); 
