@@ -52,7 +52,7 @@ BOOL initializeAudio(void)
 
     // 5) load wav resource data 
     // 5A: find resource and get handle 
-    hResource = FindResource(NULL, MAKEINTRESOURCE(ID_MUSIC), TEXT("WAV")); 
+    hResource = FindResource(NULL, MAKEINTRESOURCE(AUDIO), TEXT("WAVE")); 
     if(hResource == NULL) 
     {
         fprintf(gpFile, "%lu\n", GetLastError()); 

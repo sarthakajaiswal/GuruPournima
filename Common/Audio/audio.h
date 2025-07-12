@@ -1,7 +1,7 @@
 #ifndef _AUDIO_H
 #define _AUDIO_H 
 
-#define ID_MUSIC 103 
+#define AUDIO 500  
 
 #include <Windows.h> 
 #include <stdio.h> 
